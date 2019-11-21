@@ -28992,10 +28992,7 @@ function renderBarChart(categories, width, height) {
   (0, _donutFunctions.positionDonutChart)(donutContainer);
   addDefaultText(categories, donutConfig.width, donutConfig.height); // Add legend
 
-  (0, _donutFunctions.addDonutLabels)(donutContainer, categories, donutConfig.colors); // Render donut
-
-  updateDonutChart(getCurrentDonutData(0, categories), donutContainer, pie, donutConfig.colors, arc, categories);
-  updateDonutChart(getCurrentDonutData(0, categories), donutContainer, pie, donutConfig.colors, arc, categories); // Add Bar Chart config
+  (0, _donutFunctions.addDonutLabels)(donutContainer, categories, donutConfig.colors); // Add Bar Chart config
 
   var barConfig = {
     height: 15,
@@ -29007,7 +29004,10 @@ function renderBarChart(categories, width, height) {
   var xScale = (0, _barFunctions.addXScaleBarChart)(width, barConfig.spacing, categories);
   (0, _barFunctions.addLabelsToBarChart)(svg, categories, barConfig.labelWidth, barConfig.spacing);
   (0, _barFunctions.addXAxisToBarChart)(svg, height, barConfig.spacing, xScale);
-  (0, _barFunctions.addGridlinesToBarChart)(svg, width, height, xScale); // also stores event for donut chart
+  (0, _barFunctions.addGridlinesToBarChart)(svg, width, height, xScale); // Render donut
+
+  updateDonutChart(getCurrentDonutData(0, categories), donutContainer, pie, donutConfig.colors, arc, categories, xScale);
+  updateDonutChart(getCurrentDonutData(0, categories), donutContainer, pie, donutConfig.colors, arc, categories, xScale); // also stores event for donut chart
 
   addBarsToBarChart(xScale, svg, categories, barConfig.height, barConfig.spacing, donutContainer, pie, donutConfig.colors, arc);
 }
@@ -29022,19 +29022,25 @@ function getCurrentDonutData(index, categories) {
   });
 }
 
-function handleDonutClick(d, i, categories, data) {
-  var categoriesWithClickedMaterial = getCategoriesWithClickMaterial(categories, data, i);
-  console.log(categoriesWithClickedMaterial); // addLabelsToBarChart(svg, categories);
-
-  d3.selectAll('.bar').attr('width', function (d) {
-    return 50;
+function handleDonutClick(d, i, categories, data, xScale) {
+  // returns an arry with true or false if it contains the clicked material
+  var categoriesWithClickedMaterial = categories.map(function (el) {
+    return el.materials.some(function (subElement) {
+      return subElement.name === data[i].name ? el : false;
+    });
+  });
+  d3.select('.bar-chart h1').text(data[i].name);
+  d3.selectAll('.bar').attr('width', function (d, j) {
+    console.log(categoriesWithClickedMaterial[j]);
+    return categoriesWithClickedMaterial[j] ? xScale(data[i].value) : 0;
   });
 }
 
-function updateDonutChart(data, donutContainer, pie, color, arc, categories, colorPalette) {
-  var slice = donutContainer.select('.slices').selectAll('path.slice').data(pie(data)).on('click', function (d, i) {
-    handleDonutClick(d, i, categories, data);
-  }).on('mouseover', function (d, i) {
+function updateDonutChart(data, donutContainer, pie, color, arc, categories, xScale) {
+  var slice = donutContainer.select('.slices').selectAll('path.slice').data(pie(data)) // .on('click', function(d, i) {
+  // })
+  .on('mouseover', function (d, i) {
+    handleDonutClick(d, i, categories, data, xScale);
     d3.select('.donut-title').text((0, _helpers.truncator)(d.data.name, 1));
     d3.select('.donut-sub-title').text(d.data.value, 1);
     d3.select(this).style('cursor', 'pointer').style('fill', (0, _helpers.shadeColor)(color[i], -20));
@@ -29058,7 +29064,6 @@ function updateDonutChart(data, donutContainer, pie, color, arc, categories, col
 }
 
 var addBarsToBarChart = function addBarsToBarChart(xScale, svg, categories, barheight, barSpacing, donutContainer, pie, colors, arc) {
-  console.log('a', colors);
   svg.selectAll('rect').exit().remove().data(categories).enter().append('rect').attr('x', function (d, i) {
     return 100;
   }).attr('y', function (d, i) {
@@ -29069,7 +29074,7 @@ var addBarsToBarChart = function addBarsToBarChart(xScale, svg, categories, barh
     d3.selectAll('.bar').attr('fill', '#edf0f4');
     d3.select(this).attr('fill', '#6a2c70');
     d3.select('.donut-chart h1').text((0, _helpers.capitalize)(categories[i].name));
-    updateDonutChart(getCurrentDonutData(i, categories), donutContainer, pie, colors, arc, categories);
+    updateDonutChart(getCurrentDonutData(i, categories), donutContainer, pie, colors, arc, categories, xScale);
   });
   (0, _barFunctions.addActiveClassToBar)(0); // add active class to first item
 }; // https://stackoverflow.com/a/48928273
