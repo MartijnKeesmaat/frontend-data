@@ -66,7 +66,11 @@ function handleDonutClick(d, i, categories, data, xScale) {
 
   d3.select('.bar-chart h1').text(data[i].name);
   d3.selectAll('.bar').attr('width', (d, j) => {
-    return categoriesWithClickedMaterial[j] ? xScale(data[i].value) : 0;
+    console.log();
+    // check if there if the value exists then get that value with filter
+    // TODO clean this up
+    // TODO some categories have duplicate materials, combine those
+    return categoriesWithClickedMaterial[j] ? xScale(categories[j].materials.filter(el => el.name === data[i].name)[0].value) : 0;
   });
 }
 
