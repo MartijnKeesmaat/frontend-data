@@ -28870,14 +28870,14 @@ function createDonutContainer(width, height) {
 
 function addDonutLabels(donutContainer, categories, colors) {
   var legend = d3.select('.pie').append('g').attr('class', 'legend');
-  legend.selectAll('text').data(categories[1].materials).enter().append('text').text(function (d) {
+  legend.selectAll('text').data(categories[0].materials).enter().append('text').text(function (d) {
     return (0, _helpers.truncator)((0, _helpers.capitalize)(d.name), 1);
   }).attr('x', function (d, i) {
     return 14;
   }).attr('y', function (d, i) {
     return 50 * (i / 1.7) + 270;
   }).attr('class', 'legend-label');
-  legend.selectAll('circle').data(categories[1].materials).enter().append('circle').attr('r', 4).attr('cx', function (d, i) {
+  legend.selectAll('circle').data(categories[0].materials).enter().append('circle').attr('r', 4).attr('cx', function (d, i) {
     return 4;
   }).attr('cy', function (d, i) {
     return 50 * (i / 1.7) + 270 - 4;
@@ -28953,7 +28953,7 @@ exports.addGlobalSVGBarChart = addGlobalSVGBarChart;
 function addActiveClassToBar(index) {
   d3.selectAll('.bar').filter(function (d, i) {
     return i === index;
-  }).classed('active', true);
+  }).attr('fill', '#6a2c70');
 }
 },{"d3":"../node_modules/d3/index.js","./helpers":"scripts/helpers.js"}],"scripts/renderBarChart.js":[function(require,module,exports) {
 "use strict";
@@ -29031,13 +29031,13 @@ function handleDonutClick(d, i, categories, data, xScale) {
   });
   d3.select('.bar-chart h1').text(data[i].name);
   d3.selectAll('.bar').attr('width', function (d, j) {
-    console.log(); // check if there if the value exists then get that value with filter
-    // TODO clean this up
-    // TODO some categories have duplicate materials, combine those
-
-    return categoriesWithClickedMaterial[j] ? xScale(categories[j].materials.filter(function (el) {
+    var hasMaterial = categoriesWithClickedMaterial[j];
+    var material = categories[j].materials.filter(function (el) {
       return el.name === data[i].name;
-    })[0].value) : 0;
+    }); // TODO some categories have duplicate materials, combine those
+    // check if there if the value exists then get that value with filter
+
+    return hasMaterial ? xScale(material[0].value) : 0;
   });
 }
 
@@ -29086,6 +29086,10 @@ var addBarsToBarChart = function addBarsToBarChart(xScale, svg, categories, barh
     d3.select(this).attr('fill', '#6a2c70');
     d3.select('.donut-chart h1').text((0, _helpers.capitalize)(categories[i].name));
     updateDonutChart(getCurrentDonutData(i, categories), donutContainer, pie, colors, arc, categories, xScale);
+    console.log(d3.selectAll('.legend-label'));
+    d3.selectAll('.legend-label').text(function () {
+      return categories[i].materials[0].name;
+    });
   });
   (0, _barFunctions.addActiveClassToBar)(0); // add active class to first item
 }; // https://stackoverflow.com/a/48928273
@@ -29101,7 +29105,7 @@ var getCategoriesWithClickMaterial = function getCategoriesWithClickMaterial(cat
 
 function addDefaultText(categories, width, height) {
   var defaultText = d3.select('.pie').append('g').attr('class', 'default-text');
-  defaultText.append('text').attr('class', 'donut-title').text((0, _helpers.truncator)(categories[1].name, 1)).attr('text-anchor', 'middle').attr('dx', width / 2 + 50).attr('dy', height / 2);
+  defaultText.append('text').attr('class', 'donut-title').text((0, _helpers.truncator)(categories[0].name, 1)).attr('text-anchor', 'middle').attr('dx', width / 2 + 50).attr('dy', height / 2);
   defaultText.append('text').attr('class', 'donut-sub-title').text('Categorie').attr('text-anchor', 'middle').attr('dx', width / 2 + 50).attr('dy', height / 2 + 20);
 }
 },{"d3":"../node_modules/d3/index.js","./helpers":"scripts/helpers.js","./donut-functions":"scripts/donut-functions.js","./bar-functions":"scripts/bar-functions.js"}],"scripts/donutTest.js":[function(require,module,exports) {

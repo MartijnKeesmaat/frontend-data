@@ -66,11 +66,12 @@ function handleDonutClick(d, i, categories, data, xScale) {
 
   d3.select('.bar-chart h1').text(data[i].name);
   d3.selectAll('.bar').attr('width', (d, j) => {
-    console.log();
-    // check if there if the value exists then get that value with filter
-    // TODO clean this up
+    const hasMaterial = categoriesWithClickedMaterial[j];
+    const material = categories[j].materials.filter(el => el.name === data[i].name);
+
     // TODO some categories have duplicate materials, combine those
-    return categoriesWithClickedMaterial[j] ? xScale(categories[j].materials.filter(el => el.name === data[i].name)[0].value) : 0;
+    // check if there if the value exists then get that value with filter
+    return hasMaterial ? xScale(material[0].value) : 0;
   });
 }
 
@@ -144,6 +145,8 @@ const addBarsToBarChart = (xScale, svg, categories, barheight, barSpacing, donut
       d3.select(this).attr('fill', '#6a2c70');
       d3.select('.donut-chart h1').text(capitalize(categories[i].name));
       updateDonutChart(getCurrentDonutData(i, categories), donutContainer, pie, colors, arc, categories, xScale);
+      console.log(d3.selectAll('.legend-label'));
+      d3.selectAll('.legend-label').text(() => categories[i].materials[0].name);
     });
 
   addActiveClassToBar(0); // add active class to first item
@@ -166,7 +169,7 @@ function addDefaultText(categories, width, height) {
   defaultText
     .append('text')
     .attr('class', 'donut-title')
-    .text(truncator(categories[1].name, 1))
+    .text(truncator(categories[0].name, 1))
     .attr('text-anchor', 'middle')
     .attr('dx', width / 2 + 50)
     .attr('dy', height / 2);

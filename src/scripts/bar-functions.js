@@ -65,5 +65,5 @@ export const addGlobalSVGBarChart = (width, height) => {
 export function addActiveClassToBar(index) {
   d3.selectAll('.bar')
     .filter((d, i) => i === index)
-    .classed('active', true);
+    .attr('fill', '#6a2c70');
 }

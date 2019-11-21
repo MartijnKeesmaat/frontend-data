@@ -45,7 +45,7 @@ export function addDonutLabels(donutContainer, categories, colors) {
 
   legend
     .selectAll('text')
-    .data(categories[1].materials)
+    .data(categories[0].materials)
     .enter()
     .append('text')
     .text(d => truncator(capitalize(d.name), 1))
@@ -55,7 +55,7 @@ export function addDonutLabels(donutContainer, categories, colors) {
 
   legend
     .selectAll('circle')
-    .data(categories[1].materials)
+    .data(categories[0].materials)
     .enter()
     .append('circle')
     .attr('r', 4)
