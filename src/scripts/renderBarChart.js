@@ -82,8 +82,6 @@ function updateDonutChart(data, donutContainer, pie, color, arc, categories, xSc
     .select('.slices')
     .selectAll('path.slice')
     .data(pie(data))
-    // .on('click', function(d, i) {
-    // })
     .on('mouseover', function(d, i) {
       handleDonutClick(d, i, categories, data, xScale);
       d3.select('.donut-title').text(truncator(d.data.name, 1));

@@ -29043,9 +29043,7 @@ function handleDonutLeave(categories, xScale) {
 }
 
 function updateDonutChart(data, donutContainer, pie, color, arc, categories, xScale) {
-  var slice = donutContainer.select('.slices').selectAll('path.slice').data(pie(data)) // .on('click', function(d, i) {
-  // })
-  .on('mouseover', function (d, i) {
+  var slice = donutContainer.select('.slices').selectAll('path.slice').data(pie(data)).on('mouseover', function (d, i) {
     handleDonutClick(d, i, categories, data, xScale);
     d3.select('.donut-title').text((0, _helpers.truncator)(d.data.name, 1));
     d3.select('.donut-sub-title').text(d.data.value, 1);
