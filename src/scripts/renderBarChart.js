@@ -66,8 +66,14 @@ function handleDonutClick(d, i, categories, data, xScale) {
 
   d3.select('.bar-chart h1').text(data[i].name);
   d3.selectAll('.bar').attr('width', (d, j) => {
-    console.log(categoriesWithClickedMaterial[j]);
     return categoriesWithClickedMaterial[j] ? xScale(data[i].value) : 0;
+  });
+}
+
+function handleDonutLeave(categories, xScale) {
+  d3.select('.bar-chart h1').text('Alle objecten');
+  d3.selectAll('.bar').attr('width', (d, j) => {
+    return xScale(categories[j].value);
   });
 }
 
@@ -87,6 +93,7 @@ function updateDonutChart(data, donutContainer, pie, color, arc, categories, xSc
         .style('fill', shadeColor(color[i], -20));
     })
     .on('mouseout', function(d, i) {
+      handleDonutLeave(categories, xScale);
       d3.select(this)
         .style('cursor', 'none')
         .style('fill', color[i]);
