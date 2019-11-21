@@ -70,7 +70,7 @@ const fetchMaterialPerCategoryEach = categoriesTermaster => {
         }
         GROUP BY ?subcategorie ?materiaalLabel
         ORDER BY DESC(?choCount)
-        LIMIT 7
+        LIMIT 5
       `;
 
     fetchDataFromQuery('https://api.data.netwerkdigitaalerfgoed.nl/datasets/ivo/NMVW/services/NMVW-20/sparql', queryCategories, category, handleFetchMaterialPerCategory);
@@ -98,7 +98,7 @@ const normalizeMaterialPerCategory = (data, category) => {
 
 function renderCharts(categories) {
   const dataForFP = categories.slice(0, 7);
-  renderBarChart(dataForFP, 600, 400);
+  renderBarChart(dataForFP, 600, 390);
   // renderDonutChart(categories, 240, 35, 200);
   donutTest(categories, 0);
 

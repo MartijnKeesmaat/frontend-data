@@ -14,21 +14,11 @@ body {
   transition: 0.3s all ease;
 
   border-radius: 5px;
-
-  /* fill: #edf0f4; */
 }
 
 .bar:hover {
   cursor: pointer;
 }
-
-.active {
-  /* fill: #6a2c70; */
-}
-
-/* .bar-chart .bar:nth-of-type(2):hover {
-  fill: rgb(81, 34, 85);
-} */
 
 .donut-chart {
   margin-left: 50px;

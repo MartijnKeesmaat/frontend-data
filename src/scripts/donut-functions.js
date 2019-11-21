@@ -1,5 +1,5 @@
 import * as d3 from 'd3';
-import { capitalize } from './helpers';
+import { capitalize, truncator } from './helpers';
 
 // TODO this number should equal donut width + border
 export function positionDonutChart(donutContainer) {
@@ -48,9 +48,9 @@ export function addDonutLabels(donutContainer, categories, colors) {
     .data(categories[1].materials)
     .enter()
     .append('text')
-    .text(d => capitalize(d.name))
+    .text(d => truncator(capitalize(d.name), 1))
     .attr('x', (d, i) => 14)
-    .attr('y', (d, i) => 140 + 50 * (i / 1.7))
+    .attr('y', (d, i) => 50 * (i / 1.7) + 270)
     .attr('class', 'legend-label');
 
   legend
@@ -60,19 +60,7 @@ export function addDonutLabels(donutContainer, categories, colors) {
     .append('circle')
     .attr('r', 4)
     .attr('cx', (d, i) => 4)
-    .attr('cy', (d, i) => 140 + 50 * (i / 1.7) - 4)
+    .attr('cy', (d, i) => 50 * (i / 1.7) + 270 - 4)
     .attr('class', 'legend-color')
     .attr('fill', (d, i) => colors[i]);
-
-  // const labels = donutContainer.append('g').attr('class', 'labels');
-
-  // labels
-  //   .selectAll('text')
-  //   .data(categories[0].materials)
-  //   .enter()
-  //   .append('text')
-  //   .text(d => d.name)
-  //   .attr('x', (d, i) => 170)
-  //   .attr('y', (d, i) => i * 20 + 50)
-  //   .attr('class', 'legend-label');
 }

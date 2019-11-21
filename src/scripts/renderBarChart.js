@@ -123,9 +123,10 @@ const addBarsToBarChart = (xScale, svg, categories, barheight, barSpacing, donut
     .attr('width', d => xScale(d.value))
     .attr('height', barheight)
     .attr('class', 'bar')
+    .attr('fill', '#edf0f4')
     .on('mouseenter', function(d, i) {
-      d3.selectAll('.bar').attr('fill', colors[i]);
-      d3.select(this).attr('fill', shadeColor(colors[i], -40));
+      d3.selectAll('.bar').attr('fill', '#edf0f4');
+      d3.select(this).attr('fill', '#6a2c70');
       d3.select('.donut-chart h1').text(capitalize(categories[i].name));
       updateDonutChart(getCurrentDonutData(i, categories), donutContainer, pie, colors, arc, categories);
     });
