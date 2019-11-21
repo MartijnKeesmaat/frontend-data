@@ -28752,7 +28752,60 @@ Object.keys(_d3Zoom).forEach(function (key) {
     }
   });
 });
-},{"./dist/package.js":"../node_modules/d3/dist/package.js","d3-array":"../node_modules/d3-array/src/index.js","d3-axis":"../node_modules/d3-axis/src/index.js","d3-brush":"../node_modules/d3-brush/src/index.js","d3-chord":"../node_modules/d3-chord/src/index.js","d3-collection":"../node_modules/d3-collection/src/index.js","d3-color":"../node_modules/d3-color/src/index.js","d3-contour":"../node_modules/d3-contour/src/index.js","d3-dispatch":"../node_modules/d3-dispatch/src/index.js","d3-drag":"../node_modules/d3-drag/src/index.js","d3-dsv":"../node_modules/d3-dsv/src/index.js","d3-ease":"../node_modules/d3-ease/src/index.js","d3-fetch":"../node_modules/d3-fetch/src/index.js","d3-force":"../node_modules/d3-force/src/index.js","d3-format":"../node_modules/d3-format/src/index.js","d3-geo":"../node_modules/d3-geo/src/index.js","d3-hierarchy":"../node_modules/d3-hierarchy/src/index.js","d3-interpolate":"../node_modules/d3-interpolate/src/index.js","d3-path":"../node_modules/d3-path/src/index.js","d3-polygon":"../node_modules/d3-polygon/src/index.js","d3-quadtree":"../node_modules/d3-quadtree/src/index.js","d3-random":"../node_modules/d3-random/src/index.js","d3-scale":"../node_modules/d3-scale/src/index.js","d3-scale-chromatic":"../node_modules/d3-scale-chromatic/src/index.js","d3-selection":"../node_modules/d3-selection/src/index.js","d3-shape":"../node_modules/d3-shape/src/index.js","d3-time":"../node_modules/d3-time/src/index.js","d3-time-format":"../node_modules/d3-time-format/src/index.js","d3-timer":"../node_modules/d3-timer/src/index.js","d3-transition":"../node_modules/d3-transition/src/index.js","d3-voronoi":"../node_modules/d3-voronoi/src/index.js","d3-zoom":"../node_modules/d3-zoom/src/index.js"}],"scripts/helpers.js":[function(require,module,exports) {
+},{"./dist/package.js":"../node_modules/d3/dist/package.js","d3-array":"../node_modules/d3-array/src/index.js","d3-axis":"../node_modules/d3-axis/src/index.js","d3-brush":"../node_modules/d3-brush/src/index.js","d3-chord":"../node_modules/d3-chord/src/index.js","d3-collection":"../node_modules/d3-collection/src/index.js","d3-color":"../node_modules/d3-color/src/index.js","d3-contour":"../node_modules/d3-contour/src/index.js","d3-dispatch":"../node_modules/d3-dispatch/src/index.js","d3-drag":"../node_modules/d3-drag/src/index.js","d3-dsv":"../node_modules/d3-dsv/src/index.js","d3-ease":"../node_modules/d3-ease/src/index.js","d3-fetch":"../node_modules/d3-fetch/src/index.js","d3-force":"../node_modules/d3-force/src/index.js","d3-format":"../node_modules/d3-format/src/index.js","d3-geo":"../node_modules/d3-geo/src/index.js","d3-hierarchy":"../node_modules/d3-hierarchy/src/index.js","d3-interpolate":"../node_modules/d3-interpolate/src/index.js","d3-path":"../node_modules/d3-path/src/index.js","d3-polygon":"../node_modules/d3-polygon/src/index.js","d3-quadtree":"../node_modules/d3-quadtree/src/index.js","d3-random":"../node_modules/d3-random/src/index.js","d3-scale":"../node_modules/d3-scale/src/index.js","d3-scale-chromatic":"../node_modules/d3-scale-chromatic/src/index.js","d3-selection":"../node_modules/d3-selection/src/index.js","d3-shape":"../node_modules/d3-shape/src/index.js","d3-time":"../node_modules/d3-time/src/index.js","d3-time-format":"../node_modules/d3-time-format/src/index.js","d3-timer":"../node_modules/d3-timer/src/index.js","d3-transition":"../node_modules/d3-transition/src/index.js","d3-voronoi":"../node_modules/d3-voronoi/src/index.js","d3-zoom":"../node_modules/d3-zoom/src/index.js"}],"scripts/donut-functions.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.positionDonutChart = positionDonutChart;
+exports.getArc = getArc;
+exports.getPies = getPies;
+exports.addSlicesToDonutContrainer = addSlicesToDonutContrainer;
+exports.createDonutContainer = createDonutContainer;
+exports.addDonutLabels = addDonutLabels;
+
+var d3 = _interopRequireWildcard(require("d3"));
+
+function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function () { return cache; }; return cache; }
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || typeof obj !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
+
+// TODO this number should equal donut width + border
+function positionDonutChart(donutContainer) {
+  donutContainer.attr('transform', 'translate(' + 200 + ',' + 200 + ')');
+}
+
+function getArc(radius, outerRing, innerRing) {
+  return d3.arc().outerRadius(radius * outerRing).innerRadius(radius * innerRing);
+}
+
+function getPies() {
+  return d3.pie().sort(null).value(function (d) {
+    return d.value;
+  });
+} // TODO move these donut function to the external file
+
+
+function addSlicesToDonutContrainer(donutContainer) {
+  donutContainer.append('g').attr('class', 'slices');
+}
+
+function createDonutContainer(width, height) {
+  return d3.select('.donut-chart').append('svg').attr('width', width).attr('height', height).append('g');
+}
+
+function addDonutLabels(donutContainer, categories) {
+  var labels = donutContainer.append('g').attr('class', 'labels');
+  labels.selectAll('text').data(categories[1].materials).enter().append('text').text(function (d) {
+    return d.name;
+  }).attr('x', function (d, i) {
+    return 0;
+  }).attr('y', function (d, i) {
+    return i * 20;
+  }).attr('class', 'legend-label');
+}
+},{"d3":"../node_modules/d3/index.js"}],"scripts/helpers.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -28821,7 +28874,77 @@ function shadeColor(color, percent) {
   var BB = B.toString(16).length == 1 ? "0" + B.toString(16) : B.toString(16);
   return "#" + RR + GG + BB;
 }
-},{"d3":"../node_modules/d3/index.js"}],"scripts/renderBarChart.js":[function(require,module,exports) {
+},{"d3":"../node_modules/d3/index.js"}],"scripts/bar-functions.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.addActiveClassToBar = addActiveClassToBar;
+exports.addGlobalSVGBarChart = exports.addGridlinesToBarChart = exports.addXAxisToBarChart = exports.addXScaleBarChart = exports.addLabelsToBarChart = void 0;
+
+var d3 = _interopRequireWildcard(require("d3"));
+
+var _helpers = require("./helpers");
+
+function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function () { return cache; }; return cache; }
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || typeof obj !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
+
+var addLabelsToBarChart = function addLabelsToBarChart(svg, categories, labelWidth, barSpacing) {
+  svg.selectAll('text').data(categories).enter().append('text').text(function (d) {
+    return (0, _helpers.capitalize)(d.name);
+  }).attr('x', function (d, i) {
+    return 0;
+  }).attr('y', function (d, i) {
+    return i * barSpacing + 10;
+  }).attr('class', 'label').attr('dy', 0).attr('text-anchor', 'end').attr('transform', 'translate(90,' + 0 + ')').call(_helpers.wrap, labelWidth);
+};
+
+exports.addLabelsToBarChart = addLabelsToBarChart;
+
+var addXScaleBarChart = function addXScaleBarChart(width, barSpacing, categories) {
+  return d3.scaleLinear().domain([0, d3.max(categories, function (d) {
+    return d.value;
+  })]).range([barSpacing, width - barSpacing]);
+};
+
+exports.addXScaleBarChart = addXScaleBarChart;
+
+var addXAxisToBarChart = function addXAxisToBarChart(svg, height, barSpacing, xScale) {
+  var xAxis = d3.axisBottom(xScale).ticks(4);
+  svg.append('g').attr('transform', 'translate(50,' + (height - barSpacing) + ')').attr('color', '#9AA1A9').attr('class', 'x-axis').call(xAxis).call(function (g) {
+    return g.select('.domain').remove();
+  });
+};
+
+exports.addXAxisToBarChart = addXAxisToBarChart;
+
+var addGridlinesToBarChart = function addGridlinesToBarChart(svg, width, height, xScale) {
+  var x = xScale;
+  svg.append('g').attr('class', 'grid').attr('transform', 'translate(50,' + (height - 45) + ')').attr('stroke', '#E9EBF1').call(makeXGridlines(x).tickSize(-height).tickFormat(''));
+}; // https://bl.ocks.org/d3noob/c506ac45617cf9ed39337f99f8511218
+
+
+exports.addGridlinesToBarChart = addGridlinesToBarChart;
+
+var makeXGridlines = function makeXGridlines(x) {
+  return d3.axisBottom(x).ticks(4);
+};
+
+var addGlobalSVGBarChart = function addGlobalSVGBarChart(width, height) {
+  return d3.select('.bar-chart').append('svg').attr('width', width).attr('height', height);
+}; // stackoverflow.com/questions/28390754/get-one-element-from-d3js-selection-by-index
+
+
+exports.addGlobalSVGBarChart = addGlobalSVGBarChart;
+
+function addActiveClassToBar(index) {
+  d3.selectAll('.bar').filter(function (d, i) {
+    return i === index;
+  }).classed('active', true);
+}
+},{"d3":"../node_modules/d3/index.js","./helpers":"scripts/helpers.js"}],"scripts/renderBarChart.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -28831,7 +28954,9 @@ exports.default = renderBarChart;
 
 var d3 = _interopRequireWildcard(require("d3"));
 
-var _helpers = require("./helpers");
+var _donutFunctions = require("./donut-functions");
+
+var _barFunctions = require("./bar-functions");
 
 function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function () { return cache; }; return cache; }
 
@@ -28843,17 +28968,17 @@ function renderBarChart(categories, width, height) {
     height: 400,
     outerRing: 0.8,
     innerRing: 0.6,
-    colors: ["#98abc5", "#7b6888", "#6b486b", "#a05d56", "#d0743c", "#ff8c00"]
+    colors: ['#98abc5', '#7b6888', '#6b486b', '#a05d56', '#d0743c', '#ff8c00']
   }; // Donut setup
 
-  var donutContainer = createDonutContainer(donutConfig.width, donutConfig.height);
-  addSlicesToDonutContrainer(donutContainer);
+  var donutContainer = (0, _donutFunctions.createDonutContainer)(donutConfig.width, donutConfig.height);
+  (0, _donutFunctions.addSlicesToDonutContrainer)(donutContainer);
   var radius = Math.min(donutConfig.width, donutConfig.height) / 2;
-  var pie = getPies();
-  var arc = getArc(radius, donutConfig.outerRing, donutConfig.innerRing);
-  positionDonutChart(donutContainer); // Add legend 
+  var pie = (0, _donutFunctions.getPies)();
+  var arc = (0, _donutFunctions.getArc)(radius, donutConfig.outerRing, donutConfig.innerRing);
+  (0, _donutFunctions.positionDonutChart)(donutContainer); // Add legend
 
-  addDonutLabels(donutContainer, categories); // Render donut
+  (0, _donutFunctions.addDonutLabels)(donutContainer, categories); // Render donut
 
   updateDonutChart(getCurrentDonutData(0, categories), donutContainer, pie, donutConfig.colors, arc);
   updateDonutChart(getCurrentDonutData(0, categories), donutContainer, pie, donutConfig.colors, arc); // Add Bar Chart config
@@ -28864,11 +28989,11 @@ function renderBarChart(categories, width, height) {
     labelWidth: 100
   }; // Bar chart set up
 
-  var svg = addGlobalSVGBarChart(width, height);
-  var xScale = addXScaleBarChart(width, barConfig.spacing, categories);
-  addLabelsToBarChart(svg, categories, barConfig.labelWidth, barConfig.spacing);
-  addXAxisToBarChart(svg, height, barConfig.spacing, xScale);
-  addGridlinesToBarChart(svg, width, height, xScale); // also stores event for donut chart
+  var svg = (0, _barFunctions.addGlobalSVGBarChart)(width, height);
+  var xScale = (0, _barFunctions.addXScaleBarChart)(width, barConfig.spacing, categories);
+  (0, _barFunctions.addLabelsToBarChart)(svg, categories, barConfig.labelWidth, barConfig.spacing);
+  (0, _barFunctions.addXAxisToBarChart)(svg, height, barConfig.spacing, xScale);
+  (0, _barFunctions.addGridlinesToBarChart)(svg, width, height, xScale); // also stores event for donut chart
 
   addBarsToBarChart(xScale, svg, categories, barConfig.height, barConfig.spacing, donutContainer, pie, donutConfig.colors, arc);
 }
@@ -28884,11 +29009,11 @@ function getCurrentDonutData(index, categories) {
 }
 
 function updateDonutChart(data, donutContainer, pie, color, arc) {
-  var slice = donutContainer.select(".slices").selectAll("path.slice").data(pie(data));
-  slice.enter().insert("path").style("fill", function (d, i) {
+  var slice = donutContainer.select('.slices').selectAll('path.slice').data(pie(data));
+  slice.enter().insert('path').style('fill', function (d, i) {
     return color[i];
-  }).attr("class", "slice");
-  slice.transition().duration(500).attrTween("d", function (d) {
+  }).attr('class', 'slice');
+  slice.transition().duration(500).attrTween('d', function (d) {
     this._current = this._current || d;
     var interpolate = d3.interpolate(this._current, d);
     this._current = interpolate(0);
@@ -28899,102 +29024,21 @@ function updateDonutChart(data, donutContainer, pie, color, arc) {
   slice.exit().remove();
 }
 
-;
-
-var addGlobalSVGBarChart = function addGlobalSVGBarChart(width, height) {
-  return d3.select(".bar-chart").append("svg").attr("width", width).attr("height", height);
-};
-
 var addBarsToBarChart = function addBarsToBarChart(xScale, svg, categories, barheight, barSpacing, donutContainer, pie, key, color, arc) {
-  svg.selectAll("rect").data(categories).enter().append("rect").attr("x", function (d, i) {
+  svg.selectAll('rect').data(categories).enter().append('rect').attr('x', function (d, i) {
     return 100;
-  }).attr("y", function (d, i) {
+  }).attr('y', function (d, i) {
     return i * barSpacing;
-  }).attr("width", function (d) {
+  }).attr('width', function (d) {
     return xScale(d.value);
-  }).attr("height", barheight).attr("class", "bar").on('mouseenter', function (d, i) {
-    d3.selectAll('.bar').classed("active", false);
-    d3.select(this).classed("active", true);
+  }).attr('height', barheight).attr('class', 'bar').on('mouseenter', function (d, i) {
+    d3.selectAll('.bar').classed('active', false);
+    d3.select(this).classed('active', true);
     updateDonutChart(getCurrentDonutData(i, categories), donutContainer, pie, key, color, arc);
   });
-  addActiveClassToBar(0); // add active class to first item
+  (0, _barFunctions.addActiveClassToBar)(0); // add active class to first item
 };
-
-var addLabelsToBarChart = function addLabelsToBarChart(svg, categories, labelWidth, barSpacing) {
-  svg.selectAll("text").data(categories).enter().append("text").text(function (d) {
-    return (0, _helpers.capitalize)(d.name);
-  }).attr("x", function (d, i) {
-    return 0;
-  }).attr("y", function (d, i) {
-    return i * barSpacing + 10;
-  }).attr("class", "label").attr("dy", 0).attr("text-anchor", "end").attr("transform", "translate(90," + 0 + ")").call(_helpers.wrap, labelWidth);
-};
-
-var addXScaleBarChart = function addXScaleBarChart(width, barSpacing, categories) {
-  return d3.scaleLinear().domain([0, d3.max(categories, function (d) {
-    return d.value;
-  })]).range([barSpacing, width - barSpacing]);
-};
-
-var addXAxisToBarChart = function addXAxisToBarChart(svg, height, barSpacing, xScale) {
-  var xAxis = d3.axisBottom(xScale).ticks(4);
-  svg.append("g").attr("transform", "translate(50," + (height - barSpacing) + ")").attr("color", '#9AA1A9').attr("class", "x-axis").call(xAxis).call(function (g) {
-    return g.select(".domain").remove();
-  });
-};
-
-var addGridlinesToBarChart = function addGridlinesToBarChart(svg, width, height, xScale) {
-  var x = xScale;
-  svg.append("g").attr("class", "grid").attr("transform", "translate(50," + (height - 45) + ")").attr("stroke", "#E9EBF1").call(makeXGridlines(x).tickSize(-height).tickFormat(""));
-}; // https://bl.ocks.org/d3noob/c506ac45617cf9ed39337f99f8511218
-
-
-var makeXGridlines = function makeXGridlines(x) {
-  return d3.axisBottom(x).ticks(4);
-};
-
-function addDonutLabels(donutContainer, categories) {
-  var labels = donutContainer.append("g").attr("class", "labels");
-  labels.selectAll("text").data(categories[1].materials).enter().append("text").text(function (d) {
-    return d.name;
-  }).attr("x", function (d, i) {
-    return 0;
-  }).attr("y", function (d, i) {
-    return i * 20;
-  }).attr("class", "legend-label");
-}
-
-function createDonutContainer(width, height) {
-  return d3.select(".donut-chart").append("svg").attr('width', width).attr('height', height).append("g");
-} // TODO move these donut function to the external file
-
-
-function addSlicesToDonutContrainer(donutContainer) {
-  donutContainer.append("g").attr("class", "slices");
-}
-
-function getPies() {
-  return d3.pie().sort(null).value(function (d) {
-    return d.value;
-  });
-}
-
-function getArc(radius, outerRing, innerRing) {
-  return d3.arc().outerRadius(radius * outerRing).innerRadius(radius * innerRing);
-} // TODO this number should equal donut width + border
-
-
-function positionDonutChart(donutContainer) {
-  donutContainer.attr("transform", "translate(" + 200 + "," + 200 + ")");
-} // stackoverflow.com/questions/28390754/get-one-element-from-d3js-selection-by-index
-
-
-function addActiveClassToBar(index) {
-  d3.selectAll('.bar').filter(function (d, i) {
-    return i === index;
-  }).classed('active', true);
-}
-},{"d3":"../node_modules/d3/index.js","./helpers":"scripts/helpers.js"}],"scripts/donutTest.js":[function(require,module,exports) {
+},{"d3":"../node_modules/d3/index.js","./donut-functions":"scripts/donut-functions.js","./bar-functions":"scripts/bar-functions.js"}],"scripts/donutTest.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -29112,7 +29156,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "61706" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "63860" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
