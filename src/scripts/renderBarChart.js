@@ -1,4 +1,5 @@
 import * as d3 from 'd3';
+import { truncator } from './helpers';
 import { positionDonutChart, getArc, getPies, addSlicesToDonutContrainer, createDonutContainer, addDonutLabels } from './donut-functions';
 import { addGridlinesToBarChart, addActiveClassToBar, addXAxisToBarChart, addXScaleBarChart, addLabelsToBarChart, addGlobalSVGBarChart } from './bar-functions';
 
@@ -18,6 +19,7 @@ export default function renderBarChart(categories, width, height) {
   const pie = getPies();
   const arc = getArc(radius, donutConfig.outerRing, donutConfig.innerRing);
   positionDonutChart(donutContainer);
+  addDefaultText(categories, donutConfig.width, donutConfig.height);
 
   // Add legend
   addDonutLabels(donutContainer, categories);
@@ -54,41 +56,25 @@ function getCurrentDonutData(index, categories) {
   });
 }
 
+function handleDonutClick(d, i, categories, data) {
+  const categoriesWithClickedMaterial = getCategoriesWithClickMaterial(categories, data, i);
+  console.log(categoriesWithClickedMaterial);
+
+  // addLabelsToBarChart(svg, categories);
+  d3.selectAll('.bar').attr('width', d => 50);
+}
+
 function updateDonutChart(data, donutContainer, pie, color, arc, categories) {
   const slice = donutContainer
     .select('.slices')
     .selectAll('path.slice')
     .data(pie(data))
     .on('click', function(d, i) {
-      // console.log(data[i]);
-      // console.log(i);
-      // console.log(categories);
-
-      console.log(data[i].name);
-
-      // https://stackoverflow.com/a/48928273
-      const categoriesWithClickMaterial = categories.filter(function(element) {
-        return element.materials.some(function(subElement) {
-          return subElement.name === data[i].name;
-        });
-      });
-
-      // const a = categories.filter(j => {
-      //   return j.materials.name == data[i].name;
-      // });
-
-      console.log(categoriesWithClickMaterial);
-
-      console.log();
-
-      d3.selectAll('.bar')
-        // .exit()
-        // .remove()
-        // .data(categoriesWithClickMaterial)
-        // .enter()
-        .attr('width', d => 50);
-
-      // updateBar(categoriesWithClickMaterial);
+      handleDonutClick(d, i, categories, data);
+    })
+    .on('mouseover', function(d) {
+      d3.select('.donut-title').text(truncator(d.data.name, 1));
+      d3.select('.donut-sub-title').text(d.data.value, 1);
     });
 
   slice
@@ -133,3 +119,34 @@ const addBarsToBarChart = (xScale, svg, categories, barheight, barSpacing, donut
 
   addActiveClassToBar(0); // add active class to first item
 };
+
+// https://stackoverflow.com/a/48928273
+const getCategoriesWithClickMaterial = (categories, data, i) =>
+  categories.filter(function(element) {
+    return element.materials.some(function(subElement) {
+      return subElement.name === data[i].name;
+    });
+  });
+
+function addDefaultText(categories, width, height) {
+  const defaultText = d3
+    .select('.pie')
+    .append('g')
+    .attr('class', 'default-text');
+
+  defaultText
+    .append('text')
+    .attr('class', 'donut-title')
+    .text(truncator(categories[1].name, 1))
+    .attr('text-anchor', 'middle')
+    .attr('dx', width / 2 - 50)
+    .attr('dy', height / 2);
+
+  defaultText
+    .append('text')
+    .attr('class', 'donut-sub-title')
+    .text('Categorie')
+    .attr('text-anchor', 'middle')
+    .attr('dx', width / 2 - 50)
+    .attr('dy', height / 2 + 20);
+}

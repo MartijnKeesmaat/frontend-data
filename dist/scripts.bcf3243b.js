@@ -28752,7 +28752,78 @@ Object.keys(_d3Zoom).forEach(function (key) {
     }
   });
 });
-},{"./dist/package.js":"../node_modules/d3/dist/package.js","d3-array":"../node_modules/d3-array/src/index.js","d3-axis":"../node_modules/d3-axis/src/index.js","d3-brush":"../node_modules/d3-brush/src/index.js","d3-chord":"../node_modules/d3-chord/src/index.js","d3-collection":"../node_modules/d3-collection/src/index.js","d3-color":"../node_modules/d3-color/src/index.js","d3-contour":"../node_modules/d3-contour/src/index.js","d3-dispatch":"../node_modules/d3-dispatch/src/index.js","d3-drag":"../node_modules/d3-drag/src/index.js","d3-dsv":"../node_modules/d3-dsv/src/index.js","d3-ease":"../node_modules/d3-ease/src/index.js","d3-fetch":"../node_modules/d3-fetch/src/index.js","d3-force":"../node_modules/d3-force/src/index.js","d3-format":"../node_modules/d3-format/src/index.js","d3-geo":"../node_modules/d3-geo/src/index.js","d3-hierarchy":"../node_modules/d3-hierarchy/src/index.js","d3-interpolate":"../node_modules/d3-interpolate/src/index.js","d3-path":"../node_modules/d3-path/src/index.js","d3-polygon":"../node_modules/d3-polygon/src/index.js","d3-quadtree":"../node_modules/d3-quadtree/src/index.js","d3-random":"../node_modules/d3-random/src/index.js","d3-scale":"../node_modules/d3-scale/src/index.js","d3-scale-chromatic":"../node_modules/d3-scale-chromatic/src/index.js","d3-selection":"../node_modules/d3-selection/src/index.js","d3-shape":"../node_modules/d3-shape/src/index.js","d3-time":"../node_modules/d3-time/src/index.js","d3-time-format":"../node_modules/d3-time-format/src/index.js","d3-timer":"../node_modules/d3-timer/src/index.js","d3-transition":"../node_modules/d3-transition/src/index.js","d3-voronoi":"../node_modules/d3-voronoi/src/index.js","d3-zoom":"../node_modules/d3-zoom/src/index.js"}],"scripts/donut-functions.js":[function(require,module,exports) {
+},{"./dist/package.js":"../node_modules/d3/dist/package.js","d3-array":"../node_modules/d3-array/src/index.js","d3-axis":"../node_modules/d3-axis/src/index.js","d3-brush":"../node_modules/d3-brush/src/index.js","d3-chord":"../node_modules/d3-chord/src/index.js","d3-collection":"../node_modules/d3-collection/src/index.js","d3-color":"../node_modules/d3-color/src/index.js","d3-contour":"../node_modules/d3-contour/src/index.js","d3-dispatch":"../node_modules/d3-dispatch/src/index.js","d3-drag":"../node_modules/d3-drag/src/index.js","d3-dsv":"../node_modules/d3-dsv/src/index.js","d3-ease":"../node_modules/d3-ease/src/index.js","d3-fetch":"../node_modules/d3-fetch/src/index.js","d3-force":"../node_modules/d3-force/src/index.js","d3-format":"../node_modules/d3-format/src/index.js","d3-geo":"../node_modules/d3-geo/src/index.js","d3-hierarchy":"../node_modules/d3-hierarchy/src/index.js","d3-interpolate":"../node_modules/d3-interpolate/src/index.js","d3-path":"../node_modules/d3-path/src/index.js","d3-polygon":"../node_modules/d3-polygon/src/index.js","d3-quadtree":"../node_modules/d3-quadtree/src/index.js","d3-random":"../node_modules/d3-random/src/index.js","d3-scale":"../node_modules/d3-scale/src/index.js","d3-scale-chromatic":"../node_modules/d3-scale-chromatic/src/index.js","d3-selection":"../node_modules/d3-selection/src/index.js","d3-shape":"../node_modules/d3-shape/src/index.js","d3-time":"../node_modules/d3-time/src/index.js","d3-time-format":"../node_modules/d3-time-format/src/index.js","d3-timer":"../node_modules/d3-timer/src/index.js","d3-transition":"../node_modules/d3-transition/src/index.js","d3-voronoi":"../node_modules/d3-voronoi/src/index.js","d3-zoom":"../node_modules/d3-zoom/src/index.js"}],"scripts/helpers.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.truncator = truncator;
+exports.wrap = wrap;
+exports.shadeColor = shadeColor;
+exports.capitalize = void 0;
+
+var d3 = _interopRequireWildcard(require("d3"));
+
+function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function () { return cache; }; return cache; }
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || typeof obj !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
+
+function truncator(str, words) {
+  return str.split(/[, ]/).splice(0, words).join(' ');
+}
+
+var capitalize = function capitalize(str) {
+  return str.slice(0, 1).toUpperCase() + str.substring(1);
+}; // https://bl.ocks.org/guypursey/f47d8cd11a8ff24854305505dbbd8c07
+
+
+exports.capitalize = capitalize;
+
+function wrap(text, width) {
+  text.each(function () {
+    var text = d3.select(this),
+        words = text.text().split(/\s+/).reverse(),
+        word,
+        line = [],
+        lineNumber = 0,
+        lineHeight = 1.1,
+        // ems
+    y = text.attr('y'),
+        dy = parseFloat(text.attr('dy')),
+        tspan = text.text(null).append('tspan').attr('x', 0).attr('y', y).attr('dy', dy + 'em');
+
+    while (word = words.pop()) {
+      line.push(word);
+      tspan.text(line.join(' '));
+
+      if (tspan.node().getComputedTextLength() > width) {
+        line.pop();
+        tspan.text(line.join(' '));
+        line = [word];
+        tspan = text.append('tspan').attr('x', 0).attr('y', y).attr('dy', "".concat(++lineNumber * lineHeight + dy, "em")).text(word);
+      }
+    }
+  });
+} // https://stackoverflow.com/a/13532993
+
+
+function shadeColor(color, percent) {
+  var R = parseInt(color.substring(1, 3), 16);
+  var G = parseInt(color.substring(3, 5), 16);
+  var B = parseInt(color.substring(5, 7), 16);
+  R = parseInt(R * (100 + percent) / 100);
+  G = parseInt(G * (100 + percent) / 100);
+  B = parseInt(B * (100 + percent) / 100);
+  R = R < 255 ? R : 255;
+  G = G < 255 ? G : 255;
+  B = B < 255 ? B : 255;
+  var RR = R.toString(16).length == 1 ? '0' + R.toString(16) : R.toString(16);
+  var GG = G.toString(16).length == 1 ? '0' + G.toString(16) : G.toString(16);
+  var BB = B.toString(16).length == 1 ? '0' + B.toString(16) : B.toString(16);
+  return '#' + RR + GG + BB;
+}
+},{"d3":"../node_modules/d3/index.js"}],"scripts/donut-functions.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -28792,7 +28863,7 @@ function addSlicesToDonutContrainer(donutContainer) {
 }
 
 function createDonutContainer(width, height) {
-  return d3.select('.donut-chart').append('svg').attr('width', width).attr('height', height).append('g');
+  return d3.select('.donut-chart').append('svg').attr('width', width).attr('height', height).attr('class', 'pie').append('g');
 }
 
 function addDonutLabels(donutContainer, categories) {
@@ -28804,75 +28875,6 @@ function addDonutLabels(donutContainer, categories) {
   }).attr('y', function (d, i) {
     return i * 20;
   }).attr('class', 'legend-label');
-}
-},{"d3":"../node_modules/d3/index.js"}],"scripts/helpers.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.truncator = truncator;
-exports.capitalize = capitalize;
-exports.wrap = wrap;
-exports.shadeColor = shadeColor;
-
-var d3 = _interopRequireWildcard(require("d3"));
-
-function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function () { return cache; }; return cache; }
-
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || typeof obj !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
-
-function truncator(str, words) {
-  return str.split(/[, ]/).splice(0, words).join(" ");
-}
-
-function capitalize(str) {
-  return str.slice(0, 1).toUpperCase() + str.substring(1);
-} // https://bl.ocks.org/guypursey/f47d8cd11a8ff24854305505dbbd8c07
-
-
-function wrap(text, width) {
-  text.each(function () {
-    var text = d3.select(this),
-        words = text.text().split(/\s+/).reverse(),
-        word,
-        line = [],
-        lineNumber = 0,
-        lineHeight = 1.1,
-        // ems
-    y = text.attr("y"),
-        dy = parseFloat(text.attr("dy")),
-        tspan = text.text(null).append("tspan").attr("x", 0).attr("y", y).attr("dy", dy + "em");
-
-    while (word = words.pop()) {
-      line.push(word);
-      tspan.text(line.join(" "));
-
-      if (tspan.node().getComputedTextLength() > width) {
-        line.pop();
-        tspan.text(line.join(" "));
-        line = [word];
-        tspan = text.append("tspan").attr("x", 0).attr("y", y).attr("dy", "".concat(++lineNumber * lineHeight + dy, "em")).text(word);
-      }
-    }
-  });
-} // https://stackoverflow.com/a/13532993
-
-
-function shadeColor(color, percent) {
-  var R = parseInt(color.substring(1, 3), 16);
-  var G = parseInt(color.substring(3, 5), 16);
-  var B = parseInt(color.substring(5, 7), 16);
-  R = parseInt(R * (100 + percent) / 100);
-  G = parseInt(G * (100 + percent) / 100);
-  B = parseInt(B * (100 + percent) / 100);
-  R = R < 255 ? R : 255;
-  G = G < 255 ? G : 255;
-  B = B < 255 ? B : 255;
-  var RR = R.toString(16).length == 1 ? "0" + R.toString(16) : R.toString(16);
-  var GG = G.toString(16).length == 1 ? "0" + G.toString(16) : G.toString(16);
-  var BB = B.toString(16).length == 1 ? "0" + B.toString(16) : B.toString(16);
-  return "#" + RR + GG + BB;
 }
 },{"d3":"../node_modules/d3/index.js"}],"scripts/bar-functions.js":[function(require,module,exports) {
 "use strict";
@@ -28954,6 +28956,8 @@ exports.default = renderBarChart;
 
 var d3 = _interopRequireWildcard(require("d3"));
 
+var _helpers = require("./helpers");
+
 var _donutFunctions = require("./donut-functions");
 
 var _barFunctions = require("./bar-functions");
@@ -28976,7 +28980,8 @@ function renderBarChart(categories, width, height) {
   var radius = Math.min(donutConfig.width, donutConfig.height) / 2;
   var pie = (0, _donutFunctions.getPies)();
   var arc = (0, _donutFunctions.getArc)(radius, donutConfig.outerRing, donutConfig.innerRing);
-  (0, _donutFunctions.positionDonutChart)(donutContainer); // Add legend
+  (0, _donutFunctions.positionDonutChart)(donutContainer);
+  addDefaultText(categories, donutConfig.width, donutConfig.height); // Add legend
 
   (0, _donutFunctions.addDonutLabels)(donutContainer, categories); // Render donut
 
@@ -29008,30 +29013,21 @@ function getCurrentDonutData(index, categories) {
   });
 }
 
+function handleDonutClick(d, i, categories, data) {
+  var categoriesWithClickedMaterial = getCategoriesWithClickMaterial(categories, data, i);
+  console.log(categoriesWithClickedMaterial); // addLabelsToBarChart(svg, categories);
+
+  d3.selectAll('.bar').attr('width', function (d) {
+    return 50;
+  });
+}
+
 function updateDonutChart(data, donutContainer, pie, color, arc, categories) {
   var slice = donutContainer.select('.slices').selectAll('path.slice').data(pie(data)).on('click', function (d, i) {
-    // console.log(data[i]);
-    // console.log(i);
-    // console.log(categories);
-    console.log(data[i].name); // https://stackoverflow.com/a/48928273
-
-    var categoriesWithClickMaterial = categories.filter(function (element) {
-      return element.materials.some(function (subElement) {
-        return subElement.name === data[i].name;
-      });
-    }); // const a = categories.filter(j => {
-    //   return j.materials.name == data[i].name;
-    // });
-
-    console.log(categoriesWithClickMaterial);
-    console.log();
-    d3.selectAll('.bar') // .exit()
-    // .remove()
-    // .data(categoriesWithClickMaterial)
-    // .enter()
-    .attr('width', function (d) {
-      return 50;
-    }); // updateBar(categoriesWithClickMaterial);
+    handleDonutClick(d, i, categories, data);
+  }).on('mouseover', function (d) {
+    d3.select('.donut-title').text((0, _helpers.truncator)(d.data.name, 1));
+    d3.select('.donut-sub-title').text(d.data.value, 1);
   });
   slice.enter().insert('path').style('fill', function (d, i) {
     return color[i];
@@ -29060,8 +29056,23 @@ var addBarsToBarChart = function addBarsToBarChart(xScale, svg, categories, barh
     updateDonutChart(getCurrentDonutData(i, categories), donutContainer, pie, key, color, arc, categories);
   });
   (0, _barFunctions.addActiveClassToBar)(0); // add active class to first item
+}; // https://stackoverflow.com/a/48928273
+
+
+var getCategoriesWithClickMaterial = function getCategoriesWithClickMaterial(categories, data, i) {
+  return categories.filter(function (element) {
+    return element.materials.some(function (subElement) {
+      return subElement.name === data[i].name;
+    });
+  });
 };
-},{"d3":"../node_modules/d3/index.js","./donut-functions":"scripts/donut-functions.js","./bar-functions":"scripts/bar-functions.js"}],"scripts/donutTest.js":[function(require,module,exports) {
+
+function addDefaultText(categories, width, height) {
+  var defaultText = d3.select('.pie').append('g').attr('class', 'default-text');
+  defaultText.append('text').attr('class', 'donut-title').text((0, _helpers.truncator)(categories[1].name, 1)).attr('text-anchor', 'middle').attr('dx', width / 2 - 50).attr('dy', height / 2);
+  defaultText.append('text').attr('class', 'donut-sub-title').text('Categorie').attr('text-anchor', 'middle').attr('dx', width / 2 - 50).attr('dy', height / 2 + 20);
+}
+},{"d3":"../node_modules/d3/index.js","./helpers":"scripts/helpers.js","./donut-functions":"scripts/donut-functions.js","./bar-functions":"scripts/bar-functions.js"}],"scripts/donutTest.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {

@@ -32,6 +32,7 @@ export function createDonutContainer(width, height) {
     .append('svg')
     .attr('width', width)
     .attr('height', height)
+    .attr('class', 'pie')
     .append('g');
 }
 
