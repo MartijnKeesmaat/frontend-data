@@ -1,5 +1,5 @@
-import renderBarChart from './renderBarChart'
-import donutTest from './donutTest'
+import renderBarChart from './renderBarChart';
+import donutTest from './donutTest';
 // import renderDonutChart from './renderDonutChart.js'
 
 let categoryCounter = 0;
@@ -37,12 +37,7 @@ const handleDataMaterialPerCategory = data => {
   fetchMaterialPerCategoryEach(categories);
 };
 
-fetchDataFromQuery(
-  "https://api.data.netwerkdigitaalerfgoed.nl/datasets/ivo/NMVW/services/NMVW-20/sparql",
-  queryMainCategories,
-  "",
-  handleDataMaterialPerCategory
-);
+fetchDataFromQuery('https://api.data.netwerkdigitaalerfgoed.nl/datasets/ivo/NMVW/services/NMVW-20/sparql', queryMainCategories, '', handleDataMaterialPerCategory);
 
 const getCategoriesFromData = data => {
   return data.results.bindings.map(i => {
@@ -75,15 +70,10 @@ const fetchMaterialPerCategoryEach = categoriesTermaster => {
         }
         GROUP BY ?subcategorie ?materiaalLabel
         ORDER BY DESC(?choCount)
-        LIMIT 5
+        LIMIT 7
       `;
 
-    fetchDataFromQuery(
-      "https://api.data.netwerkdigitaalerfgoed.nl/datasets/ivo/NMVW/services/NMVW-20/sparql",
-      queryCategories,
-      category,
-      handleFetchMaterialPerCategory
-    );
+    fetchDataFromQuery('https://api.data.netwerkdigitaalerfgoed.nl/datasets/ivo/NMVW/services/NMVW-20/sparql', queryCategories, category, handleFetchMaterialPerCategory);
   });
 };
 
@@ -107,17 +97,12 @@ const normalizeMaterialPerCategory = (data, category) => {
 };
 
 function renderCharts(categories) {
-  const dataForFP = categories.slice(0, 5);
+  const dataForFP = categories.slice(0, 7);
   renderBarChart(dataForFP, 600, 300);
   // renderDonutChart(categories, 240, 35, 200);
   donutTest(categories, 0);
 
   setTimeout(() => {
     donutTest(categories, 1);
-  }, 1000)
+  }, 1000);
 }
-
-
-
-
-

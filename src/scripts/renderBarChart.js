@@ -8,7 +8,7 @@ export default function renderBarChart(categories, width, height) {
     height: 400,
     outerRing: 0.8,
     innerRing: 0.6,
-    colors: ['#98abc5', '#7b6888', '#6b486b', '#a05d56', '#d0743c', '#ff8c00']
+    colors: ['#98abc5', '#7b6888', '#6b486b', '#a05d56', '#d0743c', '#ff8c00', '#6780a2']
   };
 
   // Donut setup
@@ -23,8 +23,8 @@ export default function renderBarChart(categories, width, height) {
   addDonutLabels(donutContainer, categories);
 
   // Render donut
-  updateDonutChart(getCurrentDonutData(0, categories), donutContainer, pie, donutConfig.colors, arc);
-  updateDonutChart(getCurrentDonutData(0, categories), donutContainer, pie, donutConfig.colors, arc);
+  updateDonutChart(getCurrentDonutData(0, categories), donutContainer, pie, donutConfig.colors, arc, categories);
+  updateDonutChart(getCurrentDonutData(0, categories), donutContainer, pie, donutConfig.colors, arc, categories);
 
   // Add Bar Chart config
   const barConfig = {
@@ -54,11 +54,42 @@ function getCurrentDonutData(index, categories) {
   });
 }
 
-function updateDonutChart(data, donutContainer, pie, color, arc) {
+function updateDonutChart(data, donutContainer, pie, color, arc, categories) {
   const slice = donutContainer
     .select('.slices')
     .selectAll('path.slice')
-    .data(pie(data));
+    .data(pie(data))
+    .on('click', function(d, i) {
+      // console.log(data[i]);
+      // console.log(i);
+      // console.log(categories);
+
+      console.log(data[i].name);
+
+      // https://stackoverflow.com/a/48928273
+      const categoriesWithClickMaterial = categories.filter(function(element) {
+        return element.materials.some(function(subElement) {
+          return subElement.name === data[i].name;
+        });
+      });
+
+      // const a = categories.filter(j => {
+      //   return j.materials.name == data[i].name;
+      // });
+
+      console.log(categoriesWithClickMaterial);
+
+      console.log();
+
+      d3.selectAll('.bar')
+        // .exit()
+        // .remove()
+        // .data(categoriesWithClickMaterial)
+        // .enter()
+        .attr('width', d => 50);
+
+      // updateBar(categoriesWithClickMaterial);
+    });
 
   slice
     .enter()
@@ -84,6 +115,8 @@ function updateDonutChart(data, donutContainer, pie, color, arc) {
 const addBarsToBarChart = (xScale, svg, categories, barheight, barSpacing, donutContainer, pie, key, color, arc) => {
   svg
     .selectAll('rect')
+    .exit()
+    .remove()
     .data(categories)
     .enter()
     .append('rect')
@@ -95,7 +128,7 @@ const addBarsToBarChart = (xScale, svg, categories, barheight, barSpacing, donut
     .on('mouseenter', function(d, i) {
       d3.selectAll('.bar').classed('active', false);
       d3.select(this).classed('active', true);
-      updateDonutChart(getCurrentDonutData(i, categories), donutContainer, pie, key, color, arc);
+      updateDonutChart(getCurrentDonutData(i, categories), donutContainer, pie, key, color, arc, categories);
     });
 
   addActiveClassToBar(0); // add active class to first item

@@ -40,7 +40,7 @@ export function addDonutLabels(donutContainer, categories) {
 
   labels
     .selectAll('text')
-    .data(categories[1].materials)
+    .data(categories[0].materials)
     .enter()
     .append('text')
     .text(d => d.name)

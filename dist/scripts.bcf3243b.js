@@ -28797,7 +28797,7 @@ function createDonutContainer(width, height) {
 
 function addDonutLabels(donutContainer, categories) {
   var labels = donutContainer.append('g').attr('class', 'labels');
-  labels.selectAll('text').data(categories[1].materials).enter().append('text').text(function (d) {
+  labels.selectAll('text').data(categories[0].materials).enter().append('text').text(function (d) {
     return d.name;
   }).attr('x', function (d, i) {
     return 0;
@@ -28968,7 +28968,7 @@ function renderBarChart(categories, width, height) {
     height: 400,
     outerRing: 0.8,
     innerRing: 0.6,
-    colors: ['#98abc5', '#7b6888', '#6b486b', '#a05d56', '#d0743c', '#ff8c00']
+    colors: ['#98abc5', '#7b6888', '#6b486b', '#a05d56', '#d0743c', '#ff8c00', '#6780a2']
   }; // Donut setup
 
   var donutContainer = (0, _donutFunctions.createDonutContainer)(donutConfig.width, donutConfig.height);
@@ -28980,8 +28980,8 @@ function renderBarChart(categories, width, height) {
 
   (0, _donutFunctions.addDonutLabels)(donutContainer, categories); // Render donut
 
-  updateDonutChart(getCurrentDonutData(0, categories), donutContainer, pie, donutConfig.colors, arc);
-  updateDonutChart(getCurrentDonutData(0, categories), donutContainer, pie, donutConfig.colors, arc); // Add Bar Chart config
+  updateDonutChart(getCurrentDonutData(0, categories), donutContainer, pie, donutConfig.colors, arc, categories);
+  updateDonutChart(getCurrentDonutData(0, categories), donutContainer, pie, donutConfig.colors, arc, categories); // Add Bar Chart config
 
   var barConfig = {
     height: 15,
@@ -29008,8 +29008,31 @@ function getCurrentDonutData(index, categories) {
   });
 }
 
-function updateDonutChart(data, donutContainer, pie, color, arc) {
-  var slice = donutContainer.select('.slices').selectAll('path.slice').data(pie(data));
+function updateDonutChart(data, donutContainer, pie, color, arc, categories) {
+  var slice = donutContainer.select('.slices').selectAll('path.slice').data(pie(data)).on('click', function (d, i) {
+    // console.log(data[i]);
+    // console.log(i);
+    // console.log(categories);
+    console.log(data[i].name); // https://stackoverflow.com/a/48928273
+
+    var categoriesWithClickMaterial = categories.filter(function (element) {
+      return element.materials.some(function (subElement) {
+        return subElement.name === data[i].name;
+      });
+    }); // const a = categories.filter(j => {
+    //   return j.materials.name == data[i].name;
+    // });
+
+    console.log(categoriesWithClickMaterial);
+    console.log();
+    d3.selectAll('.bar') // .exit()
+    // .remove()
+    // .data(categoriesWithClickMaterial)
+    // .enter()
+    .attr('width', function (d) {
+      return 50;
+    }); // updateBar(categoriesWithClickMaterial);
+  });
   slice.enter().insert('path').style('fill', function (d, i) {
     return color[i];
   }).attr('class', 'slice');
@@ -29025,7 +29048,7 @@ function updateDonutChart(data, donutContainer, pie, color, arc) {
 }
 
 var addBarsToBarChart = function addBarsToBarChart(xScale, svg, categories, barheight, barSpacing, donutContainer, pie, key, color, arc) {
-  svg.selectAll('rect').data(categories).enter().append('rect').attr('x', function (d, i) {
+  svg.selectAll('rect').exit().remove().data(categories).enter().append('rect').attr('x', function (d, i) {
     return 100;
   }).attr('y', function (d, i) {
     return i * barSpacing;
@@ -29034,7 +29057,7 @@ var addBarsToBarChart = function addBarsToBarChart(xScale, svg, categories, barh
   }).attr('height', barheight).attr('class', 'bar').on('mouseenter', function (d, i) {
     d3.selectAll('.bar').classed('active', false);
     d3.select(this).classed('active', true);
-    updateDonutChart(getCurrentDonutData(i, categories), donutContainer, pie, key, color, arc);
+    updateDonutChart(getCurrentDonutData(i, categories), donutContainer, pie, key, color, arc, categories);
   });
   (0, _barFunctions.addActiveClassToBar)(0); // add active class to first item
 };
@@ -29081,7 +29104,7 @@ var handleDataMaterialPerCategory = function handleDataMaterialPerCategory(data)
   fetchMaterialPerCategoryEach(categories);
 };
 
-fetchDataFromQuery("https://api.data.netwerkdigitaalerfgoed.nl/datasets/ivo/NMVW/services/NMVW-20/sparql", queryMainCategories, "", handleDataMaterialPerCategory);
+fetchDataFromQuery('https://api.data.netwerkdigitaalerfgoed.nl/datasets/ivo/NMVW/services/NMVW-20/sparql', queryMainCategories, '', handleDataMaterialPerCategory);
 
 var getCategoriesFromData = function getCategoriesFromData(data) {
   return data.results.bindings.map(function (i) {
@@ -29095,8 +29118,8 @@ var getCategoriesFromData = function getCategoriesFromData(data) {
 
 var fetchMaterialPerCategoryEach = function fetchMaterialPerCategoryEach(categoriesTermaster) {
   categoriesTermaster.forEach(function (category) {
-    var queryCategories = "\n        PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n        PREFIX dc: <http://purl.org/dc/elements/1.1/>\n        PREFIX dct: <http://purl.org/dc/terms/>\n        PREFIX skos: <http://www.w3.org/2004/02/skos/core#>\n        PREFIX edm: <http://www.europeana.eu/schemas/edm/>\n        PREFIX foaf: <http://xmlns.com/foaf/0.1/>\n        # tel aantallen per materiaal\n        SELECT ?subcategorie ?materiaalLabel (COUNT(?cho) AS ?choCount) WHERE {\n        # haal van een term in de thesaurus de subcategorieen op\n        ".concat(category.termmaster, " skos:narrower* ?subcategorie .\n        # haal de objecten van deze subcategorieen en het materiaal\n        ?cho edm:isRelatedTo ?subcategorie .\n        ?cho dct:medium ?materiaal .\n        # haal het Label op van materiaal\n        ?materiaal skos:prefLabel ?materiaalLabel .\n        }\n        GROUP BY ?subcategorie ?materiaalLabel\n        ORDER BY DESC(?choCount)\n        LIMIT 5\n      ");
-    fetchDataFromQuery("https://api.data.netwerkdigitaalerfgoed.nl/datasets/ivo/NMVW/services/NMVW-20/sparql", queryCategories, category, handleFetchMaterialPerCategory);
+    var queryCategories = "\n        PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n        PREFIX dc: <http://purl.org/dc/elements/1.1/>\n        PREFIX dct: <http://purl.org/dc/terms/>\n        PREFIX skos: <http://www.w3.org/2004/02/skos/core#>\n        PREFIX edm: <http://www.europeana.eu/schemas/edm/>\n        PREFIX foaf: <http://xmlns.com/foaf/0.1/>\n        # tel aantallen per materiaal\n        SELECT ?subcategorie ?materiaalLabel (COUNT(?cho) AS ?choCount) WHERE {\n        # haal van een term in de thesaurus de subcategorieen op\n        ".concat(category.termmaster, " skos:narrower* ?subcategorie .\n        # haal de objecten van deze subcategorieen en het materiaal\n        ?cho edm:isRelatedTo ?subcategorie .\n        ?cho dct:medium ?materiaal .\n        # haal het Label op van materiaal\n        ?materiaal skos:prefLabel ?materiaalLabel .\n        }\n        GROUP BY ?subcategorie ?materiaalLabel\n        ORDER BY DESC(?choCount)\n        LIMIT 7\n      ");
+    fetchDataFromQuery('https://api.data.netwerkdigitaalerfgoed.nl/datasets/ivo/NMVW/services/NMVW-20/sparql', queryCategories, category, handleFetchMaterialPerCategory);
   });
 };
 
@@ -29120,7 +29143,7 @@ var normalizeMaterialPerCategory = function normalizeMaterialPerCategory(data, c
 };
 
 function renderCharts(categories) {
-  var dataForFP = categories.slice(0, 5);
+  var dataForFP = categories.slice(0, 7);
   (0, _renderBarChart.default)(dataForFP, 600, 300); // renderDonutChart(categories, 240, 35, 200);
 
   (0, _donutTest.default)(categories, 0);
