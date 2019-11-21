@@ -98,7 +98,7 @@ const normalizeMaterialPerCategory = (data, category) => {
 
 function renderCharts(categories) {
   const dataForFP = categories.slice(0, 7);
-  renderBarChart(dataForFP, 600, 300);
+  renderBarChart(dataForFP, 600, 400);
   // renderDonutChart(categories, 240, 35, 200);
   donutTest(categories, 0);
 

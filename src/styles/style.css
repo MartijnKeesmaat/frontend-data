@@ -11,11 +11,11 @@ body {
 }
 
 .bar {
-  transition: .3s all ease;
+  transition: 0.3s all ease;
 
   border-radius: 5px;
 
-  fill: #edf0f4;
+  /* fill: #edf0f4; */
 }
 
 .bar:hover {
@@ -23,14 +23,12 @@ body {
 }
 
 .active {
-  fill: #6A2C70;
+  /* fill: #6a2c70; */
 }
-
 
 /* .bar-chart .bar:nth-of-type(2):hover {
   fill: rgb(81, 34, 85);
 } */
-
 
 .donut-chart {
   margin-left: 50px;
@@ -43,7 +41,7 @@ body {
 
   font-size: 11px;
 
-  fill: #505D6F;
+  /* fill: #505d6f; */
 }
 
 .label:first-letter {
@@ -61,13 +59,13 @@ body {
 }
 
 h1 {
-  color: #505D6F;
+  color: #505d6f;
 
   font-size: 24px;
 }
 
 p {
-  color: #9AA1A9;
+  color: #9aa1a9;
 
   font-size: 16px;
 }
@@ -76,7 +74,8 @@ p {
   margin-top: 20px;
 }
 
-.bar-chart p, .bar-chart h1 {
+.bar-chart p,
+.bar-chart h1 {
   margin-left: 100px;
 }
 
@@ -86,21 +85,25 @@ p {
   font-size: 18px;
   font-weight: bold;
 
-  fill: #505D6F;
+  fill: #505d6f;
 }
 
 .donut-chart .donut-sub-title {
   font-size: 14px;
 
-  fill: #9AA1A9;
+  fill: #9aa1a9;
 }
 
 .legend-label {
   font-size: 12px;
 
-  fill: #505D6F;
+  fill: #505d6f;
 }
 
 .x-axis line {
-  stroke: #E9EBF1;
+  stroke: #e9ebf1;
+}
+
+.slice {
+  transition: 0.3s all ease;
 }

@@ -1,5 +1,5 @@
 import * as d3 from 'd3';
-import { truncator } from './helpers';
+import { truncator, shadeColor, capitalize } from './helpers';
 import { positionDonutChart, getArc, getPies, addSlicesToDonutContrainer, createDonutContainer, addDonutLabels } from './donut-functions';
 import { addGridlinesToBarChart, addActiveClassToBar, addXAxisToBarChart, addXScaleBarChart, addLabelsToBarChart, addGlobalSVGBarChart } from './bar-functions';
 
@@ -22,7 +22,7 @@ export default function renderBarChart(categories, width, height) {
   addDefaultText(categories, donutConfig.width, donutConfig.height);
 
   // Add legend
-  addDonutLabels(donutContainer, categories);
+  addDonutLabels(donutContainer, categories, donutConfig.colors);
 
   // Render donut
   updateDonutChart(getCurrentDonutData(0, categories), donutContainer, pie, donutConfig.colors, arc, categories);
@@ -64,7 +64,7 @@ function handleDonutClick(d, i, categories, data) {
   d3.selectAll('.bar').attr('width', d => 50);
 }
 
-function updateDonutChart(data, donutContainer, pie, color, arc, categories) {
+function updateDonutChart(data, donutContainer, pie, color, arc, categories, colorPalette) {
   const slice = donutContainer
     .select('.slices')
     .selectAll('path.slice')
@@ -72,9 +72,20 @@ function updateDonutChart(data, donutContainer, pie, color, arc, categories) {
     .on('click', function(d, i) {
       handleDonutClick(d, i, categories, data);
     })
-    .on('mouseover', function(d) {
+    .on('mouseover', function(d, i) {
       d3.select('.donut-title').text(truncator(d.data.name, 1));
       d3.select('.donut-sub-title').text(d.data.value, 1);
+      d3.select(this)
+        .style('cursor', 'pointer')
+        .style('fill', shadeColor(color[i], -20));
+    })
+    .on('mouseout', function(d, i) {
+      d3.select(this)
+        .style('cursor', 'none')
+        .style('fill', color[i]);
+    })
+    .each(function(d, i) {
+      this._current = i;
     });
 
   slice
@@ -98,7 +109,8 @@ function updateDonutChart(data, donutContainer, pie, color, arc, categories) {
   slice.exit().remove();
 }
 
-const addBarsToBarChart = (xScale, svg, categories, barheight, barSpacing, donutContainer, pie, key, color, arc) => {
+const addBarsToBarChart = (xScale, svg, categories, barheight, barSpacing, donutContainer, pie, colors, arc) => {
+  console.log('a', colors);
   svg
     .selectAll('rect')
     .exit()
@@ -112,9 +124,10 @@ const addBarsToBarChart = (xScale, svg, categories, barheight, barSpacing, donut
     .attr('height', barheight)
     .attr('class', 'bar')
     .on('mouseenter', function(d, i) {
-      d3.selectAll('.bar').classed('active', false);
-      d3.select(this).classed('active', true);
-      updateDonutChart(getCurrentDonutData(i, categories), donutContainer, pie, key, color, arc, categories);
+      d3.selectAll('.bar').attr('fill', colors[i]);
+      d3.select(this).attr('fill', shadeColor(colors[i], -40));
+      d3.select('.donut-chart h1').text(capitalize(categories[i].name));
+      updateDonutChart(getCurrentDonutData(i, categories), donutContainer, pie, colors, arc, categories);
     });
 
   addActiveClassToBar(0); // add active class to first item
@@ -139,7 +152,7 @@ function addDefaultText(categories, width, height) {
     .attr('class', 'donut-title')
     .text(truncator(categories[1].name, 1))
     .attr('text-anchor', 'middle')
-    .attr('dx', width / 2 - 50)
+    .attr('dx', width / 2 + 50)
     .attr('dy', height / 2);
 
   defaultText
@@ -147,6 +160,6 @@ function addDefaultText(categories, width, height) {
     .attr('class', 'donut-sub-title')
     .text('Categorie')
     .attr('text-anchor', 'middle')
-    .attr('dx', width / 2 - 50)
+    .attr('dx', width / 2 + 50)
     .attr('dy', height / 2 + 20);
 }
