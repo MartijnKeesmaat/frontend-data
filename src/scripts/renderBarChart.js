@@ -20,6 +20,7 @@ export default function renderBarChart(categories, width, height) {
   const arc = getArc(radius, donutConfig.outerRing, donutConfig.innerRing);
   positionDonutChart(donutContainer);
   addDefaultText(categories, donutConfig.width, donutConfig.height);
+  d3.select('.donut-chart h2').text(capitalize(categories[0].name));
 
   // Add legend
   addDonutLabels(donutContainer, categories, donutConfig.colors);
@@ -64,19 +65,19 @@ function handleDonutClick(d, i, categories, data, xScale) {
     });
   });
 
-  d3.select('.bar-chart h1').text(data[i].name);
+  d3.select('.bar-chart h1').text(capitalize(data[i].name));
+  d3.select('.bar-chart p').text('Welke categorieën hebben dit material?');
   d3.selectAll('.bar').attr('width', (d, j) => {
+    // check if there if the value exists then get that value with filter
     const hasMaterial = categoriesWithClickedMaterial[j];
     const material = categories[j].materials.filter(el => el.name === data[i].name);
-
-    // TODO some categories have duplicate materials, combine those
-    // check if there if the value exists then get that value with filter
     return hasMaterial ? xScale(material[0].value) : 0;
   });
 }
 
 function handleDonutLeave(categories, xScale) {
-  d3.select('.bar-chart h1').text('Alle objecten');
+  d3.select('.bar-chart h1').text('Hoofdcategorieën');
+  d3.select('.bar-chart p').text('Ga met je muis over een categorie om te updaten');
   d3.selectAll('.bar').attr('width', (d, j) => {
     return xScale(categories[j].value);
   });
@@ -90,7 +91,7 @@ function updateDonutChart(data, donutContainer, pie, color, arc, categories, xSc
     .on('mouseover', function(d, i) {
       handleDonutClick(d, i, categories, data, xScale);
       d3.select('.donut-title').text(truncator(d.data.name, 1));
-      d3.select('.donut-sub-title').text(d.data.value, 1);
+      d3.select('.donut-sub-title').text(`${d.data.value} objecten`);
       d3.select(this)
         .style('cursor', 'pointer')
         .style('fill', shadeColor(color[i], -20));
@@ -143,9 +144,8 @@ const addBarsToBarChart = (xScale, svg, categories, barheight, barSpacing, donut
     .on('mouseenter', function(d, i) {
       d3.selectAll('.bar').attr('fill', '#edf0f4');
       d3.select(this).attr('fill', '#6a2c70');
-      d3.select('.donut-chart h1').text(capitalize(categories[i].name));
+      d3.select('.donut-chart h2').text(capitalize(categories[i].name));
       updateDonutChart(getCurrentDonutData(i, categories), donutContainer, pie, colors, arc, categories, xScale);
-      console.log(d3.selectAll('.legend-label'));
       d3.selectAll('.legend-label').text(() => categories[i].materials[0].name);
     });
 

@@ -98,5 +98,33 @@ p {
   transition: 0.3s all ease;
 }
 
+h1 {
+  margin-bottom: 0;
+
+  font-size: 22px;
+}
+
+h2 {
+  max-width: 209px;
+  margin-bottom: 0;
+
+  color: #505d6f;
+
+  font-size: 19px;
+}
+
+p {
+  margin-top: 10px;
+
+  font-size: 15px;
+}
+
+.bar-chart__meta {
+}
+
+.donut-chart__meta {
+  height: 71px;
+}
+
 
 /*# sourceMappingURL=/style.251b6741.css.map */

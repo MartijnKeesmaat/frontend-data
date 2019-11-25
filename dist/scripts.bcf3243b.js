@@ -28990,7 +28990,8 @@ function renderBarChart(categories, width, height) {
   var pie = (0, _donutFunctions.getPies)();
   var arc = (0, _donutFunctions.getArc)(radius, donutConfig.outerRing, donutConfig.innerRing);
   (0, _donutFunctions.positionDonutChart)(donutContainer);
-  addDefaultText(categories, donutConfig.width, donutConfig.height); // Add legend
+  addDefaultText(categories, donutConfig.width, donutConfig.height);
+  d3.select('.donut-chart h2').text((0, _helpers.capitalize)(categories[0].name)); // Add legend
 
   (0, _donutFunctions.addDonutLabels)(donutContainer, categories, donutConfig.colors); // Add Bar Chart config
 
@@ -29029,20 +29030,21 @@ function handleDonutClick(d, i, categories, data, xScale) {
       return subElement.name === data[i].name ? el : false;
     });
   });
-  d3.select('.bar-chart h1').text(data[i].name);
+  d3.select('.bar-chart h1').text((0, _helpers.capitalize)(data[i].name));
+  d3.select('.bar-chart p').text('Welke categorieën hebben dit material?');
   d3.selectAll('.bar').attr('width', function (d, j) {
+    // check if there if the value exists then get that value with filter
     var hasMaterial = categoriesWithClickedMaterial[j];
     var material = categories[j].materials.filter(function (el) {
       return el.name === data[i].name;
-    }); // TODO some categories have duplicate materials, combine those
-    // check if there if the value exists then get that value with filter
-
+    });
     return hasMaterial ? xScale(material[0].value) : 0;
   });
 }
 
 function handleDonutLeave(categories, xScale) {
-  d3.select('.bar-chart h1').text('Alle objecten');
+  d3.select('.bar-chart h1').text('Hoofdcategorieën');
+  d3.select('.bar-chart p').text('Ga met je muis over een categorie om te updaten');
   d3.selectAll('.bar').attr('width', function (d, j) {
     return xScale(categories[j].value);
   });
@@ -29052,7 +29054,7 @@ function updateDonutChart(data, donutContainer, pie, color, arc, categories, xSc
   var slice = donutContainer.select('.slices').selectAll('path.slice').data(pie(data)).on('mouseover', function (d, i) {
     handleDonutClick(d, i, categories, data, xScale);
     d3.select('.donut-title').text((0, _helpers.truncator)(d.data.name, 1));
-    d3.select('.donut-sub-title').text(d.data.value, 1);
+    d3.select('.donut-sub-title').text("".concat(d.data.value, " objecten"));
     d3.select(this).style('cursor', 'pointer').style('fill', (0, _helpers.shadeColor)(color[i], -20));
   }).on('mouseout', function (d, i) {
     handleDonutLeave(categories, xScale);
@@ -29084,9 +29086,8 @@ var addBarsToBarChart = function addBarsToBarChart(xScale, svg, categories, barh
   }).attr('height', barheight).attr('class', 'bar').attr('fill', '#edf0f4').on('mouseenter', function (d, i) {
     d3.selectAll('.bar').attr('fill', '#edf0f4');
     d3.select(this).attr('fill', '#6a2c70');
-    d3.select('.donut-chart h1').text((0, _helpers.capitalize)(categories[i].name));
+    d3.select('.donut-chart h2').text((0, _helpers.capitalize)(categories[i].name));
     updateDonutChart(getCurrentDonutData(i, categories), donutContainer, pie, colors, arc, categories, xScale);
-    console.log(d3.selectAll('.legend-label'));
     d3.selectAll('.legend-label').text(function () {
       return categories[i].materials[0].name;
     });
@@ -29226,7 +29227,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "63860" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "49416" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
