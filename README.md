@@ -10,7 +10,7 @@ In functional programming (fp) you learn how to create visualisations from exter
 For this project I created a dashboard which first shows the main categories of the [NMVW organisation](https://collectie.wereldculturen.nl/#/query/a399dc40-72c2-48e0-9675-654ffc84570f) and second the materials of their respective category. The categories are displayed in a bar chart. This chart shows 5 categories. If the user scrolls he/she can view all categories. The user will be greeted with the materials of a category when clicked on a bar in the bar chart.
 
 ## Demo
-See the the live demo [here]([![Netlify Status](https://api.netlify.com/api/v1/badges/1c5f5275-6038-4ca7-b8d4-32f12e188f72/deploy-status)](https://app.netlify.com/sites/make-frontend-data/deploys))
+See the the live demo [here](https://make-frontend-data.netlify.com/)
 
 [![Image from Gyazo](https://i.gyazo.com/370d181aa181813bc5236b1939552b56.gif)](https://gyazo.com/370d181aa181813bc5236b1939552b56)
 
