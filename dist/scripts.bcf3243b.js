@@ -29053,8 +29053,8 @@ function handleDonutLeave(categories, xScale) {
 function updateDonutChart(data, donutContainer, pie, color, arc, categories, xScale) {
   var slice = donutContainer.select('.slices').selectAll('path.slice').data(pie(data)).on('mouseover', function (d, i) {
     handleDonutClick(d, i, categories, data, xScale);
-    d3.select('.donut-title').text((0, _helpers.truncator)(d.data.name, 1));
-    d3.select('.donut-sub-title').text("".concat(d.data.value, " objecten"));
+    d3.select('.donut-title').text("".concat(d.data.value));
+    d3.select('.donut-sub-title').text('Objecten');
     d3.select(this).style('cursor', 'pointer').style('fill', (0, _helpers.shadeColor)(color[i], -20));
   }).on('mouseout', function (d, i) {
     handleDonutLeave(categories, xScale);
@@ -29091,6 +29091,8 @@ var addBarsToBarChart = function addBarsToBarChart(xScale, svg, categories, barh
     d3.selectAll('.legend-label').text(function () {
       return categories[i].materials[0].name;
     });
+    d3.select('.donut-title').text("".concat(d.value));
+    d3.select('.donut-sub-title').text('Objecten');
   });
   (0, _barFunctions.addActiveClassToBar)(0); // add active class to first item
 }; // https://stackoverflow.com/a/48928273

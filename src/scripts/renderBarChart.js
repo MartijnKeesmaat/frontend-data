@@ -90,8 +90,8 @@ function updateDonutChart(data, donutContainer, pie, color, arc, categories, xSc
     .data(pie(data))
     .on('mouseover', function(d, i) {
       handleDonutClick(d, i, categories, data, xScale);
-      d3.select('.donut-title').text(truncator(d.data.name, 1));
-      d3.select('.donut-sub-title').text(`${d.data.value} objecten`);
+      d3.select('.donut-title').text(`${d.data.value}`);
+      d3.select('.donut-sub-title').text('Objecten');
       d3.select(this)
         .style('cursor', 'pointer')
         .style('fill', shadeColor(color[i], -20));
@@ -147,6 +147,8 @@ const addBarsToBarChart = (xScale, svg, categories, barheight, barSpacing, donut
       d3.select('.donut-chart h2').text(capitalize(categories[i].name));
       updateDonutChart(getCurrentDonutData(i, categories), donutContainer, pie, colors, arc, categories, xScale);
       d3.selectAll('.legend-label').text(() => categories[i].materials[0].name);
+      d3.select('.donut-title').text(`${d.value}`);
+      d3.select('.donut-sub-title').text('Objecten');
     });
 
   addActiveClassToBar(0); // add active class to first item
