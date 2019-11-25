@@ -66,7 +66,7 @@ function handleDonutHover(d, i, categories, data, xScale) {
   });
 
   // highlight current legend label
-  d3.selectAll('.legend-label').style('fill-opacity', '0.4');
+  d3.selectAll('.legend-label').style('fill-opacity', '0.2');
   const currentLabel = d3.selectAll('.legend-label').filter((d, j) => j === i);
   currentLabel.style('fill-opacity', '1');
 
