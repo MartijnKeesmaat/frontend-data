@@ -28846,7 +28846,11 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 
 // TODO this number should equal donut width + border
 function positionDonutChart(donutContainer) {
-  donutContainer.attr('transform', 'translate(' + 300 + ',' + 200 + ')');
+  var donutDimensions = 280;
+  var containerHeight = 280;
+  var xOffset = 50;
+  var yOffset = 20;
+  donutContainer.attr('transform', "translate(".concat(donutDimensions + xOffset, ", ").concat(containerHeight / 2 + yOffset, ")"));
 }
 
 function getArc(radius, outerRing, innerRing) {
@@ -28869,18 +28873,21 @@ function createDonutContainer(width, height) {
 }
 
 function addDonutLabels(donutContainer, categories, colors) {
-  var legend = d3.select('.pie').append('g').attr('class', 'legend');
+  var legendHeight = 132;
+  var barChartHeight = 280;
+  var tja = 12;
+  var legend = d3.select('.pie').append('g').attr('transform', "translate(0, ".concat(barChartHeight - legendHeight + tja, ")")).attr('class', 'legend');
   legend.selectAll('text').data(categories[0].materials).enter().append('text').text(function (d) {
     return (0, _helpers.truncator)((0, _helpers.capitalize)(d.name), 1);
   }).attr('x', function (d, i) {
     return 14;
   }).attr('y', function (d, i) {
-    return 50 * (i / 1.7) + 270;
+    return 50 * (i / 1.7);
   }).attr('class', 'legend-label');
   legend.selectAll('circle').data(categories[0].materials).enter().append('circle').attr('r', 4).attr('cx', function (d, i) {
     return 4;
   }).attr('cy', function (d, i) {
-    return 50 * (i / 1.7) + 270 - 4;
+    return 50 * (i / 1.7) - 4;
   }).attr('class', 'legend-color').attr('fill', function (d, i) {
     return colors[i];
   });
@@ -28924,7 +28931,7 @@ exports.addXScaleBarChart = addXScaleBarChart;
 
 var addXAxisToBarChart = function addXAxisToBarChart(svg, height, barSpacing, xScale) {
   var xAxis = d3.axisBottom(xScale).ticks(4);
-  svg.append('g').attr('transform', 'translate(50,' + (height - barSpacing) + ')').attr('color', '#9AA1A9').attr('class', 'x-axis').call(xAxis).call(function (g) {
+  svg.append('g').attr('transform', 'translate(50,' + 260 + ')').attr('color', '#9AA1A9').attr('class', 'x-axis').call(xAxis).call(function (g) {
     return g.select('.domain').remove();
   });
 };
@@ -28933,7 +28940,7 @@ exports.addXAxisToBarChart = addXAxisToBarChart;
 
 var addGridlinesToBarChart = function addGridlinesToBarChart(svg, width, height, xScale) {
   var x = xScale;
-  svg.append('g').attr('class', 'grid').attr('transform', 'translate(50,' + (height - 45) + ')').attr('stroke', '#E9EBF1').call(makeXGridlines(x).tickSize(-height).tickFormat(''));
+  svg.append('g').attr('class', 'grid').attr('transform', 'translate(50,' + (height - 20) + ')').attr('stroke', '#E9EBF1').call(makeXGridlines(x).tickSize(-height).tickFormat(''));
 }; // https://bl.ocks.org/d3noob/c506ac45617cf9ed39337f99f8511218
 
 
@@ -28977,14 +28984,14 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 
 function renderBarChart(categories, width, height) {
   var donutConfig = {
-    width: 500,
-    height: 400,
+    width: 280,
+    height: 280,
     outerRing: 0.8,
-    innerRing: 0.6,
+    innerRing: 0.58,
     colors: ['#98abc5', '#7b6888', '#6b486b', '#a05d56', '#d0743c', '#ff8c00', '#6780a2']
   }; // Donut setup
 
-  var donutContainer = (0, _donutFunctions.createDonutContainer)(donutConfig.width, donutConfig.height);
+  var donutContainer = (0, _donutFunctions.createDonutContainer)(480, 280);
   (0, _donutFunctions.addSlicesToDonutContrainer)(donutContainer);
   var radius = Math.min(donutConfig.width, donutConfig.height) / 2;
   var pie = (0, _donutFunctions.getPies)();
@@ -28997,7 +29004,7 @@ function renderBarChart(categories, width, height) {
 
   var barConfig = {
     height: 15,
-    spacing: 50,
+    spacing: 56,
     labelWidth: 100
   }; // Bar chart set up
 
@@ -29078,7 +29085,7 @@ function updateDonutChart(data, donutContainer, pie, color, arc, categories, xSc
 
 var addBarsToBarChart = function addBarsToBarChart(xScale, svg, categories, barheight, barSpacing, donutContainer, pie, colors, arc) {
   svg.selectAll('rect').exit().remove().data(categories).enter().append('rect').attr('x', function (d, i) {
-    return 100;
+    return 106;
   }).attr('y', function (d, i) {
     return i * barSpacing;
   }).attr('width', function (d) {
@@ -29107,9 +29114,14 @@ var getCategoriesWithClickMaterial = function getCategoriesWithClickMaterial(cat
 };
 
 function addDefaultText(categories, width, height) {
+  var donutDimensions = 280;
+  var containerHeight = 280;
+  var xOffset = 50;
+  var yOffset = 20;
+  var margin = 18;
   var defaultText = d3.select('.pie').append('g').attr('class', 'default-text');
-  defaultText.append('text').attr('class', 'donut-title').text((0, _helpers.truncator)(categories[0].name, 1)).attr('text-anchor', 'middle').attr('dx', width / 2 + 50).attr('dy', height / 2);
-  defaultText.append('text').attr('class', 'donut-sub-title').text('Categorie').attr('text-anchor', 'middle').attr('dx', width / 2 + 50).attr('dy', height / 2 + 20);
+  defaultText.append('text').attr('class', 'donut-title').text(categories[0].value).attr('text-anchor', 'middle').attr('dx', donutDimensions + xOffset).attr('dy', containerHeight / 2 + yOffset);
+  defaultText.append('text').attr('class', 'donut-sub-title').text('Objecten').attr('text-anchor', 'middle').attr('dx', donutDimensions + xOffset).attr('dy', containerHeight / 2 + margin + yOffset);
 }
 },{"d3":"../node_modules/d3/index.js","./helpers":"scripts/helpers.js","./donut-functions":"scripts/donut-functions.js","./bar-functions":"scripts/bar-functions.js"}],"scripts/donutTest.js":[function(require,module,exports) {
 "use strict";
@@ -29193,8 +29205,8 @@ var normalizeMaterialPerCategory = function normalizeMaterialPerCategory(data, c
 };
 
 function renderCharts(categories) {
-  var dataForFP = categories.slice(0, 7);
-  (0, _renderBarChart.default)(dataForFP, 600, 390); // renderDonutChart(categories, 240, 35, 200);
+  var dataForFP = categories.slice(0, 5);
+  (0, _renderBarChart.default)(dataForFP, 600, 280); // renderDonutChart(categories, 240, 35, 200);
 
   (0, _donutTest.default)(categories, 0);
   setTimeout(function () {

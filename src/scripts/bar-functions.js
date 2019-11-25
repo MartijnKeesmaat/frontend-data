@@ -28,7 +28,7 @@ export const addXAxisToBarChart = (svg, height, barSpacing, xScale) => {
   const xAxis = d3.axisBottom(xScale).ticks(4);
   svg
     .append('g')
-    .attr('transform', 'translate(50,' + (height - barSpacing) + ')')
+    .attr('transform', 'translate(50,' + 260 + ')')
     .attr('color', '#9AA1A9')
     .attr('class', 'x-axis')
     .call(xAxis)
@@ -41,7 +41,7 @@ export const addGridlinesToBarChart = (svg, width, height, xScale) => {
   svg
     .append('g')
     .attr('class', 'grid')
-    .attr('transform', 'translate(50,' + (height - 45) + ')')
+    .attr('transform', 'translate(50,' + (height - 20) + ')')
     .attr('stroke', '#E9EBF1')
     .call(
       makeXGridlines(x)

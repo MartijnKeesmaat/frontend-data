@@ -5,15 +5,15 @@ import { addGridlinesToBarChart, addActiveClassToBar, addXAxisToBarChart, addXSc
 
 export default function renderBarChart(categories, width, height) {
   const donutConfig = {
-    width: 500,
-    height: 400,
+    width: 280,
+    height: 280,
     outerRing: 0.8,
-    innerRing: 0.6,
+    innerRing: 0.58,
     colors: ['#98abc5', '#7b6888', '#6b486b', '#a05d56', '#d0743c', '#ff8c00', '#6780a2']
   };
 
   // Donut setup
-  const donutContainer = createDonutContainer(donutConfig.width, donutConfig.height);
+  const donutContainer = createDonutContainer(480, 280);
   addSlicesToDonutContrainer(donutContainer);
   const radius = Math.min(donutConfig.width, donutConfig.height) / 2;
   const pie = getPies();
@@ -28,7 +28,7 @@ export default function renderBarChart(categories, width, height) {
   // Add Bar Chart config
   const barConfig = {
     height: 15,
-    spacing: 50,
+    spacing: 56,
     labelWidth: 100
   };
 
@@ -135,7 +135,7 @@ const addBarsToBarChart = (xScale, svg, categories, barheight, barSpacing, donut
     .data(categories)
     .enter()
     .append('rect')
-    .attr('x', (d, i) => 100)
+    .attr('x', (d, i) => 106)
     .attr('y', (d, i) => i * barSpacing)
     .attr('width', d => xScale(d.value))
     .attr('height', barheight)
@@ -163,6 +163,12 @@ const getCategoriesWithClickMaterial = (categories, data, i) =>
   });
 
 function addDefaultText(categories, width, height) {
+  const donutDimensions = 280;
+  const containerHeight = 280;
+  const xOffset = 50;
+  const yOffset = 20;
+  const margin = 18;
+
   const defaultText = d3
     .select('.pie')
     .append('g')
@@ -171,16 +177,16 @@ function addDefaultText(categories, width, height) {
   defaultText
     .append('text')
     .attr('class', 'donut-title')
-    .text(truncator(categories[0].name, 1))
+    .text(categories[0].value)
     .attr('text-anchor', 'middle')
-    .attr('dx', width / 2 + 50)
-    .attr('dy', height / 2);
+    .attr('dx', donutDimensions + xOffset)
+    .attr('dy', containerHeight / 2 + yOffset);
 
   defaultText
     .append('text')
     .attr('class', 'donut-sub-title')
-    .text('Categorie')
+    .text('Objecten')
     .attr('text-anchor', 'middle')
-    .attr('dx', width / 2 + 50)
-    .attr('dy', height / 2 + 20);
+    .attr('dx', donutDimensions + xOffset)
+    .attr('dy', containerHeight / 2 + margin + yOffset);
 }

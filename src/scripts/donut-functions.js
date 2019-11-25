@@ -3,7 +3,11 @@ import { capitalize, truncator } from './helpers';
 
 // TODO this number should equal donut width + border
 export function positionDonutChart(donutContainer) {
-  donutContainer.attr('transform', 'translate(' + 300 + ',' + 200 + ')');
+  const donutDimensions = 280;
+  const containerHeight = 280;
+  const xOffset = 50;
+  const yOffset = 20;
+  donutContainer.attr('transform', `translate(${donutDimensions + xOffset}, ${containerHeight / 2 + yOffset})`);
 }
 
 export function getArc(radius, outerRing, innerRing) {
@@ -38,9 +42,13 @@ export function createDonutContainer(width, height) {
 }
 
 export function addDonutLabels(donutContainer, categories, colors) {
+  const legendHeight = 132;
+  const barChartHeight = 280;
+  const tja = 12;
   const legend = d3
     .select('.pie')
     .append('g')
+    .attr('transform', `translate(0, ${barChartHeight - legendHeight + tja})`)
     .attr('class', 'legend');
 
   legend
@@ -50,7 +58,7 @@ export function addDonutLabels(donutContainer, categories, colors) {
     .append('text')
     .text(d => truncator(capitalize(d.name), 1))
     .attr('x', (d, i) => 14)
-    .attr('y', (d, i) => 50 * (i / 1.7) + 270)
+    .attr('y', (d, i) => 50 * (i / 1.7))
     .attr('class', 'legend-label');
 
   legend
@@ -60,7 +68,7 @@ export function addDonutLabels(donutContainer, categories, colors) {
     .append('circle')
     .attr('r', 4)
     .attr('cx', (d, i) => 4)
-    .attr('cy', (d, i) => 50 * (i / 1.7) + 270 - 4)
+    .attr('cy', (d, i) => 50 * (i / 1.7) - 4)
     .attr('class', 'legend-color')
     .attr('fill', (d, i) => colors[i]);
 }
