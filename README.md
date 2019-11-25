@@ -1,4 +1,4 @@
-[![Netlify Status](https://api.netlify.com/api/v1/badges/a77e8421-230a-49f8-96b9-327ef67bbe1a/deploy-status)](https://app.netlify.com/sites/boring-liskov-c16543/deploys)
+[![Netlify Status](https://api.netlify.com/api/v1/badges/1c5f5275-6038-4ca7-b8d4-32f12e188f72/deploy-status)](https://app.netlify.com/sites/make-frontend-data/deploys)
 
 # 📈 NVWM Dashboard
 > Uitstekende documentatie, ik heb hier niets meer aan toe te voegen, veel succes morgen! [@roberrrt-s](https://github.com/MartijnKeesmaat/functional-programming/issues/24)
