@@ -1,5 +1,5 @@
 import * as d3 from 'd3';
-import { truncator, shadeColor, capitalize } from './helpers';
+import { shadeColor, capitalize } from './helpers';
 import { positionDonutChart, getArc, getPies, addSlicesToDonutContrainer, createDonutContainer, addDonutLabels } from './donut-functions';
 import { addGridlinesToBarChart, addActiveClassToBar, addXAxisToBarChart, addXScaleBarChart, addLabelsToBarChart, addGlobalSVGBarChart } from './bar-functions';
 
@@ -57,13 +57,18 @@ function getCurrentDonutData(index, categories) {
   });
 }
 
-function handleDonutClick(d, i, categories, data, xScale) {
+function handleDonutHover(d, i, categories, data, xScale) {
   // returns an arry with true or false if it contains the clicked material
   const categoriesWithClickedMaterial = categories.map(el => {
     return el.materials.some(function(subElement) {
       return subElement.name === data[i].name ? el : false;
     });
   });
+
+  // highlight current legend label
+  d3.selectAll('.legend-label').style('fill-opacity', '0.4');
+  const currentLabel = d3.selectAll('.legend-label').filter((d, j) => j === i);
+  currentLabel.style('fill-opacity', '1');
 
   d3.select('.bar-chart h1').text(capitalize(data[i].name));
   d3.select('.bar-chart p').text('Welke categorieën hebben dit material?');
@@ -81,6 +86,7 @@ function handleDonutLeave(categories, xScale) {
   d3.selectAll('.bar').attr('width', (d, j) => {
     return xScale(categories[j].value);
   });
+  d3.selectAll('.legend-label').style('fill-opacity', '1');
 }
 
 function updateDonutChart(data, donutContainer, pie, color, arc, categories, xScale) {
@@ -89,9 +95,8 @@ function updateDonutChart(data, donutContainer, pie, color, arc, categories, xSc
     .selectAll('path.slice')
     .data(pie(data))
     .on('mouseover', function(d, i) {
-      handleDonutClick(d, i, categories, data, xScale);
+      handleDonutHover(d, i, categories, data, xScale);
       d3.select('.donut-title').text(`${d.data.value}`);
-      d3.select('.donut-sub-title').text('Objecten');
       d3.select(this)
         .style('cursor', 'pointer')
         .style('fill', shadeColor(color[i], -20));

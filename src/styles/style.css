@@ -133,3 +133,7 @@ p {
 .donut-chart__meta p {
   max-width: 200px;
 }
+
+.legend-label {
+  transition: 0.3s all ease;
+}

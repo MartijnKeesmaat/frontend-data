@@ -134,5 +134,9 @@ p {
   max-width: 200px;
 }
 
+.legend-label {
+  transition: 0.3s all ease;
+}
+
 
 /*# sourceMappingURL=/style.251b6741.css.map */
