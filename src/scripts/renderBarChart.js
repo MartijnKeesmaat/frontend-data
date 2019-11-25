@@ -144,11 +144,14 @@ const addBarsToBarChart = (xScale, svg, categories, barheight, barSpacing, donut
     .on('mouseenter', function(d, i) {
       d3.selectAll('.bar').attr('fill', '#edf0f4');
       d3.select(this).attr('fill', '#6a2c70');
+
       d3.select('.donut-chart h2').text(capitalize(categories[i].name));
-      updateDonutChart(getCurrentDonutData(i, categories), donutContainer, pie, colors, arc, categories, xScale);
-      d3.selectAll('.legend-label').text(() => categories[i].materials[0].name);
       d3.select('.donut-title').text(`${d.value}`);
       d3.select('.donut-sub-title').text('Objecten');
+
+      d3.selectAll('.legend-label').text((d, j) => categories[i].materials[j].name);
+
+      updateDonutChart(getCurrentDonutData(i, categories), donutContainer, pie, colors, arc, categories, xScale);
     });
 
   addActiveClassToBar(0); // add active class to first item
