@@ -164,7 +164,7 @@ const addBarsToBarChart = (xScale, svg, categories, barheight, barSpacing, donut
       d3.select('.donut-title').text(`${d.value}`);
       d3.select('.donut-sub-title').text('Objecten');
 
-      d3.selectAll('.legend-label').text((d, j) => categories[i].materials[j].name);
+      d3.selectAll('.legend-label').text((d, j) => capitalize(categories[i].materials[j].name));
 
       updateDonutChart(getCurrentDonutData(i, categories), donutContainer, pie, colors, arc, categories, xScale);
     });

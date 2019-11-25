@@ -29114,7 +29114,7 @@ var addBarsToBarChart = function addBarsToBarChart(xScale, svg, categories, barh
     d3.select('.donut-title').text("".concat(d.value));
     d3.select('.donut-sub-title').text('Objecten');
     d3.selectAll('.legend-label').text(function (d, j) {
-      return categories[i].materials[j].name;
+      return (0, _helpers.capitalize)(categories[i].materials[j].name);
     });
     updateDonutChart(getCurrentDonutData(i, categories), donutContainer, pie, colors, arc, categories, xScale);
   });
