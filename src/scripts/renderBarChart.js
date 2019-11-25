@@ -65,11 +65,7 @@ function handleDonutHover(d, i, categories, data, xScale) {
     });
   });
 
-  // highlight current legend label
-  d3.selectAll('.legend-label').style('fill-opacity', '0.2');
-  const currentLabel = d3.selectAll('.legend-label').filter((d, j) => j === i);
-  currentLabel.style('fill-opacity', '1');
-
+  highlighCurrentLegendLabel(i);
   d3.select('.bar-chart h1').text(capitalize(data[i].name));
   d3.select('.bar-chart p').text('Welke categorieën hebben dit material?');
   d3.selectAll('.bar').attr('width', (d, j) => {
@@ -80,13 +76,27 @@ function handleDonutHover(d, i, categories, data, xScale) {
   });
 }
 
-function handleDonutLeave(categories, xScale) {
+function highlighCurrentLegendLabel(selected) {
+  d3.selectAll('.legend-label').style('fill-opacity', '0.2');
+  const currentLabel = d3.selectAll('.legend-label').filter((d, i) => i === selected);
+  currentLabel.style('fill-opacity', '1');
+}
+
+function resetCurrentLegendLabel() {
+  d3.selectAll('.legend-label').style('fill-opacity', '1');
+}
+
+function updateBarMetaData() {
   d3.select('.bar-chart h1').text('Hoofdcategorieën');
   d3.select('.bar-chart p').text('Ga met je muis over een categorie om te updaten');
+}
+
+function handleDonutLeave(categories, xScale) {
+  resetCurrentLegendLabel();
+  updateBarMetaData();
   d3.selectAll('.bar').attr('width', (d, j) => {
     return xScale(categories[j].value);
   });
-  d3.selectAll('.legend-label').style('fill-opacity', '1');
 }
 
 function updateDonutChart(data, donutContainer, pie, color, arc, categories, xScale) {
