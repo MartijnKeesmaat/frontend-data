@@ -29102,15 +29102,6 @@ var addBarsToBarChart = function addBarsToBarChart(xScale, svg, categories, barh
     updateDonutChart(getCurrentDonutData(i, categories), donutContainer, pie, colors, arc, categories, xScale);
   });
   (0, _barFunctions.addActiveClassToBar)(0); // add active class to first item
-}; // https://stackoverflow.com/a/48928273
-
-
-var getCategoriesWithClickMaterial = function getCategoriesWithClickMaterial(categories, data, i) {
-  return categories.filter(function (element) {
-    return element.materials.some(function (subElement) {
-      return subElement.name === data[i].name;
-    });
-  });
 };
 
 function addDefaultText(categories, width, height) {

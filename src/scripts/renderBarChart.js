@@ -157,14 +157,6 @@ const addBarsToBarChart = (xScale, svg, categories, barheight, barSpacing, donut
   addActiveClassToBar(0); // add active class to first item
 };
 
-// https://stackoverflow.com/a/48928273
-const getCategoriesWithClickMaterial = (categories, data, i) =>
-  categories.filter(function(element) {
-    return element.materials.some(function(subElement) {
-      return subElement.name === data[i].name;
-    });
-  });
-
 function addDefaultText(categories, width, height) {
   const donutDimensions = 280;
   const containerHeight = 280;
