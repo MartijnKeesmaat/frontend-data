@@ -55,3 +55,11 @@ Since the data that is being retrieved doesn't need much cleaning, I decided to 
 - [FreeCodeCamp, data visualization](https://www.freecodecamp.org/learn/data-visualization)
 - [Donut chart in D3v4](https://codepen.io/zakariachowdhury/pen/EZeGJy)
 - [Donut chart 'w update](http://bl.ocks.org/dbuezas/9306799)
+
+## Reviews
+> Uitstekende documentatie, ik heb hier niets meer aan toe te voegen, veel succes morgen! @roberrrt-s
+
+> pro review: jeetje.... super man. lekker gewerkt - Marc "swagmeister" Kunst
+
+
+
