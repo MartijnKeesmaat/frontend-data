@@ -2,6 +2,7 @@ import * as d3 from 'd3';
 import { shadeColor, capitalize } from './helpers';
 import { positionDonutChart, getArc, getPies, addSlicesToDonutContrainer, createDonutContainer, addDonutLabels } from './donut-functions';
 import { addGridlinesToBarChart, addActiveClassToBar, addXAxisToBarChart, addXScaleBarChart, addLabelsToBarChart, addGlobalSVGBarChart } from './bar-functions';
+import { get } from 'http';
 
 export default function renderBarChart(categories, width, height) {
   const donutConfig = {
@@ -57,6 +58,14 @@ function getCurrentDonutData(index, categories) {
   });
 }
 
+let index = 0;
+function getSelectedBar() {
+  d3.selectAll('.bar').on('mouseover', function(d, i) {
+    index = i;
+  });
+  return index;
+}
+
 function handleDonutHover(d, i, categories, data, xScale) {
   // returns an arry with true or false if it contains the clicked material
   const categoriesWithClickedMaterial = categories.map(el => {
@@ -106,12 +115,17 @@ function updateDonutChart(data, donutContainer, pie, color, arc, categories, xSc
     .data(pie(data))
     .on('mouseover', function(d, i) {
       handleDonutHover(d, i, categories, data, xScale);
-      d3.select('.donut-title').text(`${d.data.value}`);
+      d3.select('.donut-title').text(d.data.value);
+      d3.selectAll('.bar').attr('fill', color[i]);
+      d3.selectAll();
       d3.select(this)
         .style('cursor', 'pointer')
         .style('fill', shadeColor(color[i], -20));
     })
     .on('mouseout', function(d, i) {
+      d3.selectAll('.bar').attr('fill', '#edf0f4');
+      d3.select('.donut-title').text(`${d.data.value}`);
+      addActiveClassToBar(getSelectedBar());
       handleDonutLeave(categories, xScale);
       d3.select(this)
         .style('cursor', 'none')
@@ -158,11 +172,10 @@ const addBarsToBarChart = (xScale, svg, categories, barheight, barSpacing, donut
     .attr('fill', '#edf0f4')
     .on('mouseenter', function(d, i) {
       d3.selectAll('.bar').attr('fill', '#edf0f4');
-      d3.select(this).attr('fill', '#6a2c70');
+      d3.select(this).attr('fill', '#ff8c00');
 
       d3.select('.donut-chart h2').text(capitalize(categories[i].name));
-      d3.select('.donut-title').text(`${d.value}`);
-      d3.select('.donut-sub-title').text('Objecten');
+      d3.select('.donut-title').text(d.value);
 
       d3.selectAll('.legend-label').text((d, j) => capitalize(categories[i].materials[j].name));
 
