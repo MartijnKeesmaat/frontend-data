@@ -62,8 +62,8 @@ export const addGlobalSVGBarChart = (width, height) => {
 };
 
 // stackoverflow.com/questions/28390754/get-one-element-from-d3js-selection-by-index
-export function addActiveClassToBar(index) {
+export function addActiveClassToBar(index, color) {
   d3.selectAll('.bar')
     .filter((d, i) => i === index)
-    .attr('fill', '#ff8c00');
+    .attr('fill', color);
 }

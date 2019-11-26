@@ -28957,10 +28957,10 @@ var addGlobalSVGBarChart = function addGlobalSVGBarChart(width, height) {
 
 exports.addGlobalSVGBarChart = addGlobalSVGBarChart;
 
-function addActiveClassToBar(index) {
+function addActiveClassToBar(index, color) {
   d3.selectAll('.bar').filter(function (d, i) {
     return i === index;
-  }).attr('fill', '#ff8c00');
+  }).attr('fill', color);
 }
 },{"d3":"../node_modules/d3/index.js","./helpers":"scripts/helpers.js"}],"../../../../../.config/yarn/global/node_modules/stream-http/lib/capability.js":[function(require,module,exports) {
 var global = arguments[3];
@@ -36853,7 +36853,7 @@ function renderBarChart(categories, width, height) {
     height: 280,
     outerRing: 0.8,
     innerRing: 0.58,
-    colors: ['#98abc5', '#7b6888', '#6b486b', '#a05d56', '#d0743c', '#ff8c00', '#6780a2']
+    colors: ['#98abc5', '#7b6888', '#6b486b', '#a05d56', '#d0743c', '#fba16c', '#6780a2']
   }; // Donut setup
 
   var donutContainer = (0, _donutFunctions.createDonutContainer)(480, 280);
@@ -36883,7 +36883,8 @@ function renderBarChart(categories, width, height) {
   updateDonutChart(getCurrentDonutData(0, categories), donutContainer, pie, donutConfig.colors, arc, categories, xScale); // also stores event for donut chart
 
   addBarsToBarChart(xScale, svg, categories, barConfig.height, barConfig.spacing, donutContainer, pie, donutConfig.colors, arc);
-}
+} // TODO Move to separate file
+
 
 function getCurrentDonutData(index, categories) {
   return categories[index].materials.map(function (label, i) {
@@ -36893,7 +36894,8 @@ function getCurrentDonutData(index, categories) {
       name: categories[index].materials[i].name
     };
   });
-}
+} // TODO Move to separate file
+
 
 var index = 0;
 
@@ -36902,7 +36904,9 @@ function getSelectedBar() {
     index = i;
   });
   return index;
-}
+} // TODO Move to separate file
+// TODO Divide and concur
+
 
 function handleDonutHover(d, i, categories, data, xScale) {
   // returns an arry with true or false if it contains the clicked material
@@ -36922,7 +36926,8 @@ function handleDonutHover(d, i, categories, data, xScale) {
     });
     return hasMaterial ? xScale(material[0].value) : 0;
   });
-}
+} // TODO Move to separate file
+
 
 function highlighCurrentLegendLabel(selected) {
   d3.selectAll('.legend-label').style('fill-opacity', '0.2');
@@ -36930,16 +36935,19 @@ function highlighCurrentLegendLabel(selected) {
     return i === selected;
   });
   currentLabel.style('fill-opacity', '1');
-}
+} // TODO Move to separate file
+
 
 function resetCurrentLegendLabel() {
   d3.selectAll('.legend-label').style('fill-opacity', '1');
-}
+} // TODO Move to separate file
+
 
 function updateBarMetaData() {
   d3.select('.bar-chart h1').text('Hoofdcategorieën');
   d3.select('.bar-chart p').text('Ga met je muis over een categorie om te updaten');
-}
+} // TODO Move to separate file
+
 
 function handleDonutLeave(categories, xScale) {
   resetCurrentLegendLabel();
@@ -36947,19 +36955,20 @@ function handleDonutLeave(categories, xScale) {
   d3.selectAll('.bar').attr('width', function (d, j) {
     return xScale(categories[j].value);
   });
-}
+} // TODO Divide and concur
+
 
 function updateDonutChart(data, donutContainer, pie, color, arc, categories, xScale) {
   var slice = donutContainer.select('.slices').selectAll('path.slice').data(pie(data)).on('mouseover', function (d, i) {
     handleDonutHover(d, i, categories, data, xScale);
     d3.select('.donut-title').text(d.data.value);
     d3.selectAll('.bar').attr('fill', color[i]);
-    d3.selectAll();
     d3.select(this).style('cursor', 'pointer').style('fill', (0, _helpers.shadeColor)(color[i], -20));
   }).on('mouseout', function (d, i) {
     d3.selectAll('.bar').attr('fill', '#edf0f4');
-    d3.select('.donut-title').text("".concat(d.data.value));
-    (0, _barFunctions.addActiveClassToBar)(getSelectedBar());
+    d3.select('.donut-title').text(d.data.value);
+    (0, _barFunctions.addActiveClassToBar)(getSelectedBar(), '#fba16c');
+    d3.select('.donut-title').text(categories[getSelectedBar()].value);
     handleDonutLeave(categories, xScale);
     d3.select(this).style('cursor', 'none').style('fill', color[i]);
   }).each(function (d, i) {
@@ -36977,7 +36986,8 @@ function updateDonutChart(data, donutContainer, pie, color, arc, categories, xSc
     };
   });
   slice.exit().remove();
-}
+} // TODO Divide and concur
+
 
 var addBarsToBarChart = function addBarsToBarChart(xScale, svg, categories, barheight, barSpacing, donutContainer, pie, colors, arc) {
   svg.selectAll('rect').exit().remove().data(categories).enter().append('rect').attr('x', function (d, i) {
@@ -36988,16 +36998,19 @@ var addBarsToBarChart = function addBarsToBarChart(xScale, svg, categories, barh
     return xScale(d.value);
   }).attr('height', barheight).attr('class', 'bar').attr('fill', '#edf0f4').on('mouseenter', function (d, i) {
     d3.selectAll('.bar').attr('fill', '#edf0f4');
-    d3.select(this).attr('fill', '#ff8c00');
+    d3.select(this).attr('fill', '#fba16c');
     d3.select('.donut-chart h2').text((0, _helpers.capitalize)(categories[i].name));
     d3.select('.donut-title').text(d.value);
     d3.selectAll('.legend-label').text(function (d, j) {
       return (0, _helpers.capitalize)(categories[i].materials[j].name);
     });
     updateDonutChart(getCurrentDonutData(i, categories), donutContainer, pie, colors, arc, categories, xScale);
-  });
-  (0, _barFunctions.addActiveClassToBar)(0); // add active class to first item
-};
+  }); // TODO add colorname as value
+
+  (0, _barFunctions.addActiveClassToBar)(0, '#fba16c'); // add active class to first item
+}; // TODO move to seperate file
+// TODO make these variables global
+
 
 function addDefaultText(categories, width, height) {
   var donutDimensions = 280;

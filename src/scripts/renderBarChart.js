@@ -10,7 +10,7 @@ export default function renderBarChart(categories, width, height) {
     height: 280,
     outerRing: 0.8,
     innerRing: 0.58,
-    colors: ['#98abc5', '#7b6888', '#6b486b', '#a05d56', '#d0743c', '#ff8c00', '#6780a2']
+    colors: ['#98abc5', '#7b6888', '#6b486b', '#a05d56', '#d0743c', '#fba16c', '#6780a2']
   };
 
   // Donut setup
@@ -48,6 +48,7 @@ export default function renderBarChart(categories, width, height) {
   addBarsToBarChart(xScale, svg, categories, barConfig.height, barConfig.spacing, donutContainer, pie, donutConfig.colors, arc);
 }
 
+// TODO Move to separate file
 function getCurrentDonutData(index, categories) {
   return categories[index].materials.map(function(label, i) {
     return {
@@ -58,6 +59,7 @@ function getCurrentDonutData(index, categories) {
   });
 }
 
+// TODO Move to separate file
 let index = 0;
 function getSelectedBar() {
   d3.selectAll('.bar').on('mouseover', function(d, i) {
@@ -66,6 +68,8 @@ function getSelectedBar() {
   return index;
 }
 
+// TODO Move to separate file
+// TODO Divide and concur
 function handleDonutHover(d, i, categories, data, xScale) {
   // returns an arry with true or false if it contains the clicked material
   const categoriesWithClickedMaterial = categories.map(el => {
@@ -85,21 +89,25 @@ function handleDonutHover(d, i, categories, data, xScale) {
   });
 }
 
+// TODO Move to separate file
 function highlighCurrentLegendLabel(selected) {
   d3.selectAll('.legend-label').style('fill-opacity', '0.2');
   const currentLabel = d3.selectAll('.legend-label').filter((d, i) => i === selected);
   currentLabel.style('fill-opacity', '1');
 }
 
+// TODO Move to separate file
 function resetCurrentLegendLabel() {
   d3.selectAll('.legend-label').style('fill-opacity', '1');
 }
 
+// TODO Move to separate file
 function updateBarMetaData() {
   d3.select('.bar-chart h1').text('Hoofdcategorieën');
   d3.select('.bar-chart p').text('Ga met je muis over een categorie om te updaten');
 }
 
+// TODO Move to separate file
 function handleDonutLeave(categories, xScale) {
   resetCurrentLegendLabel();
   updateBarMetaData();
@@ -108,29 +116,33 @@ function handleDonutLeave(categories, xScale) {
   });
 }
 
+// TODO Divide and concur
 function updateDonutChart(data, donutContainer, pie, color, arc, categories, xScale) {
   const slice = donutContainer
     .select('.slices')
     .selectAll('path.slice')
     .data(pie(data))
+
     .on('mouseover', function(d, i) {
       handleDonutHover(d, i, categories, data, xScale);
       d3.select('.donut-title').text(d.data.value);
       d3.selectAll('.bar').attr('fill', color[i]);
-      d3.selectAll();
       d3.select(this)
         .style('cursor', 'pointer')
         .style('fill', shadeColor(color[i], -20));
     })
+
     .on('mouseout', function(d, i) {
       d3.selectAll('.bar').attr('fill', '#edf0f4');
-      d3.select('.donut-title').text(`${d.data.value}`);
-      addActiveClassToBar(getSelectedBar());
+      d3.select('.donut-title').text(d.data.value);
+      addActiveClassToBar(getSelectedBar(), '#fba16c');
+      d3.select('.donut-title').text(categories[getSelectedBar()].value);
       handleDonutLeave(categories, xScale);
       d3.select(this)
         .style('cursor', 'none')
         .style('fill', color[i]);
     })
+
     .each(function(d, i) {
       this._current = i;
     });
@@ -156,6 +168,7 @@ function updateDonutChart(data, donutContainer, pie, color, arc, categories, xSc
   slice.exit().remove();
 }
 
+// TODO Divide and concur
 const addBarsToBarChart = (xScale, svg, categories, barheight, barSpacing, donutContainer, pie, colors, arc) => {
   svg
     .selectAll('rect')
@@ -172,7 +185,7 @@ const addBarsToBarChart = (xScale, svg, categories, barheight, barSpacing, donut
     .attr('fill', '#edf0f4')
     .on('mouseenter', function(d, i) {
       d3.selectAll('.bar').attr('fill', '#edf0f4');
-      d3.select(this).attr('fill', '#ff8c00');
+      d3.select(this).attr('fill', '#fba16c');
 
       d3.select('.donut-chart h2').text(capitalize(categories[i].name));
       d3.select('.donut-title').text(d.value);
@@ -182,9 +195,12 @@ const addBarsToBarChart = (xScale, svg, categories, barheight, barSpacing, donut
       updateDonutChart(getCurrentDonutData(i, categories), donutContainer, pie, colors, arc, categories, xScale);
     });
 
-  addActiveClassToBar(0); // add active class to first item
+  // TODO add colorname as value
+  addActiveClassToBar(0, '#fba16c'); // add active class to first item
 };
 
+// TODO move to seperate file
+// TODO make these variables global
 function addDefaultText(categories, width, height) {
   const donutDimensions = 280;
   const containerHeight = 280;
