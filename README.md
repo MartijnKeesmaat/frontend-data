@@ -19,13 +19,27 @@ The donut chart shows the top 5 materials for each category. To make the prototy
 ![](https://camo.githubusercontent.com/30e1e4b2b0dd4e35994344799d32c661d4548d07/68747470733a2f2f692e6779617a6f2e636f6d2f38626237643566336362616263663738393462643033386361316265313735642e676966)
 
 ## Next to the examples
-Here you briefly see the examples I used and how I transformed. The process of adapting these examples can be find in the [wiki](https://github.com/MartijnKeesmaat/frontend-data/wiki/Examples-&-My-work).
+Here you briefly see the examples I used and how I transformed. The process of adapting these examples can be find in the [wiki](https://github.com/MartijnKeesmaat/frontend-data/wiki/Examples-&-My-work). 
 
 | Bar chart        | Donut chart           | Result  |
 | :-------------: |:-------------:| :-----:|
 | ![](https://user-images.githubusercontent.com/8048514/68934881-d7c9bc80-0797-11ea-8f40-8842971b6d69.png)      | ![](https://camo.githubusercontent.com/b235439d39d16c3a51199ff22ecb47b3208de94d/68747470733a2f2f692e6779617a6f2e636f6d2f30306462623439656331383265643662643939663364356163623266616437352e676966) | [![Image from Gyazo](https://i.gyazo.com/370d181aa181813bc5236b1939552b56.gif)](https://gyazo.com/370d181aa181813bc5236b1939552b56) |
 
+Here is what I changed from these examples:
 
+#### Bar chart
+- Changed the orientation of the bars to horizontal.
+- Added labels to the side and wrapped it with a max-width
+- Added a scale
+- Added the x-axis
+- Added gridlines
+- Styling - styled the graph according to the design
+
+#### Donut chart
+- Meta data - the title and sub-title which update once the user hovers over a bar in the bar chart See update pattern here
+- Data input - the data inside the donut chart now updates with real data. This process is now triggered by hovering over a bar inside the bar-chart See update pattern here
+- Legend - the legend shows which materials there currently are displayed. It's also interactive to give feedback to the user of what the current material is.
+- Inner value - inside the the donut chart you see the amount of objects total and when hovered of a specific material
 
 ## Install
 First install dependencies:
