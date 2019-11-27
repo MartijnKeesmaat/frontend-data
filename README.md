@@ -21,7 +21,7 @@ The donut chart shows the top 5 materials for each category. To make the prototy
 ## Next to the examples
 Here you briefly see the examples I used and how I transformed. The process of adapting these examples can be find in the [wiki](https://github.com/MartijnKeesmaat/frontend-data/wiki/Examples-&-My-work). 
 
-| Bar chart        | Donut chart           | Result  |
+| [Bar chart](https://www.freecodecamp.org/learn/data-visualization/data-visualization-with-d3/add-a-hover-effect-to-a-d3-element/)        | [Donut chart](http://bl.ocks.org/dbuezas/9306799)           | [Result](https://make-frontend-data.netlify.com/)  |
 | :-------------: |:-------------:| :-----:|
 | ![](https://user-images.githubusercontent.com/8048514/68934881-d7c9bc80-0797-11ea-8f40-8842971b6d69.png)      | ![](https://camo.githubusercontent.com/b235439d39d16c3a51199ff22ecb47b3208de94d/68747470733a2f2f692e6779617a6f2e636f6d2f30306462623439656331383265643662643939663364356163623266616437352e676966) | [![Image from Gyazo](https://i.gyazo.com/370d181aa181813bc5236b1939552b56.gif)](https://gyazo.com/370d181aa181813bc5236b1939552b56) |
 
