@@ -14,7 +14,7 @@ See the the live demo [here](https://make-frontend-data.netlify.com/)
 The first chart is a horizontal bar chart which, in this case, updates the data of the donut chart. You can see the bar chart as a fancy alternative to a dropdown. Once the user hovers over a bar in the graph, the donut-chart will update.
 ![](https://camo.githubusercontent.com/293a76cc4730b136d46d5c16cb88baf881d86f65/68747470733a2f2f692e6779617a6f2e636f6d2f35353031626136613335643632303461383733393561393136333262643033632e676966)
 
-### What categories contain a material
+### What categories contain the selected material
 The donut chart shows the top 5 materials for each category. To make the prototype more interesting, we also update the bar chart based on those materials. Once the user hovers over a slice of the donut, it shows which categories contain that material. The width of the bars now indicates how much of the selected material each category has.
 ![](https://camo.githubusercontent.com/30e1e4b2b0dd4e35994344799d32c661d4548d07/68747470733a2f2f692e6779617a6f2e636f6d2f38626237643566336362616263663738393462643033386361316265313735642e676966)
 
