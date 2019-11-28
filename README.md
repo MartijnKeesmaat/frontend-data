@@ -61,15 +61,15 @@ npm run build-dev
 ```
 
 ## Wiki
-The [wiki](https://github.com/MartijnKeesmaat/functional-programming/wiki) documents the progress of this project. It goes over the process through the stages of the concept, technical research, visual design and prototype.
+The [wiki](https://github.com/MartijnKeesmaat/frontend-data/wiki) documents the progress of this project. It goes over the process through the stages of the concept, technical research, visual design and prototype.
 
 ## Data
 The data that is used comes from the database of the [NMVW collection](https://collectie.wereldculturen.nl/). For the assignment we are asked to use [SPARQL](https://www.w3.org/TR/rdf-sparql-query/) to retrieve the data. 
 
-Data being used in the app regards the main categories and their respective most-used materials. The process of gaining this data is explained on the [quest for the query](https://github.com/MartijnKeesmaat/functional-programming/wiki/Quest-for-the-query) page.
+Data being used in the app regards the main categories and their respective most-used materials. The process of gaining this data is explained on the [quest for the query](https://github.com/MartijnKeesmaat/frontend-data/wiki/Quest-for-the-query) page.
 
 ### Data cleaning
-Since the data that is being retrieved doesn't need much cleaning, I decided to clean the survey data from another project. This is explained on the [data cleaning](https://github.com/MartijnKeesmaat/functional-programming/wiki/Data-cleaning-exercise) page.
+Since the data that is being retrieved doesn't need much cleaning, I decided to clean the survey data from another project. This is explained on the [data cleaning](https://github.com/MartijnKeesmaat/frontend-data/wiki/Data-cleaning) page.
 
 ## Acknowledgments
 - [The NMVW org.](https://collectie.wereldculturen.nl/), for hosting us and prodiving the data
