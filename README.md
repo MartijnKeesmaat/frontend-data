@@ -1,7 +1,7 @@
 [![Netlify Status](https://api.netlify.com/api/v1/badges/1c5f5275-6038-4ca7-b8d4-32f12e188f72/deploy-status)](https://app.netlify.com/sites/make-frontend-data/deploys)
 
 # 📈 NVWM Dashboard
-The NVWM Dashboard is a project created for the [front-end data](https://github.com/cmda-tt/course-19-20/tree/master/frontend-data) of the [Amsterdam University of Applied Sciences](https://www.hva.nl/)
+The NVWM Dashboard is a project created for the [front-end data course](https://github.com/cmda-tt/course-19-20/tree/master/frontend-data) of the [Amsterdam University of Applied Sciences](https://www.hva.nl/)
 
 In frontend data (fd) you create an interactive visualisation, use data joins, apply motion, and additionally apply learning outcomes attained in previous courses. You additionally learn about programming principles like debugging and refactoring code.
 
@@ -10,16 +10,16 @@ This project is created for the NMVW organisation. They are also the target audi
 
 See the the live demo [here](https://make-frontend-data.netlify.com/)
 
-### Showing the materials for each category
-The first chart is a horizontal bar chart which, in this case, updates the data of the donut chart. You can see the bar chart as a fancy alternative to a dropdown. Once the user hovers over a bar in the graph, the content will update.
+### Showing the most populair materials for each category
+The first chart is a horizontal bar chart which, in this case, updates the data of the donut chart. You can see the bar chart as a fancy alternative to a dropdown. Once the user hovers over a bar in the graph, the donut-chart will update.
 ![](https://camo.githubusercontent.com/293a76cc4730b136d46d5c16cb88baf881d86f65/68747470733a2f2f692e6779617a6f2e636f6d2f35353031626136613335643632303461383733393561393136333262643033632e676966)
 
 ### What categories contain a material
-The donut chart shows the top 5 materials for each category. To make the prototype more interesting, we also update the bar chart based on those materials. Once the user hovers over a slice of the donut, it shows which categories also have that material. The width of the bars now indicates how much of the selected material each category has.
+The donut chart shows the top 5 materials for each category. To make the prototype more interesting, we also update the bar chart based on those materials. Once the user hovers over a slice of the donut, it shows which categories contain that material. The width of the bars now indicates how much of the selected material each category has.
 ![](https://camo.githubusercontent.com/30e1e4b2b0dd4e35994344799d32c661d4548d07/68747470733a2f2f692e6779617a6f2e636f6d2f38626237643566336362616263663738393462643033386361316265313735642e676966)
 
 ## Next to the examples
-Here you briefly see the examples I used and how I transformed. The process of adapting these examples can be find in the [wiki](https://github.com/MartijnKeesmaat/frontend-data/wiki/Examples-&-My-work). 
+Here you briefly see the examples that were used and how I transformed them. The process of adapting these examples can be found in the [wiki](https://github.com/MartijnKeesmaat/frontend-data/wiki/Examples-&-My-work). 
 
 | [Bar chart](https://www.freecodecamp.org/learn/data-visualization/data-visualization-with-d3/add-a-hover-effect-to-a-d3-element/)        | [Donut chart](http://bl.ocks.org/dbuezas/9306799)           | [Result](https://make-frontend-data.netlify.com/)  |
 | :-------------: |:-------------:| :-----:|
@@ -42,6 +42,8 @@ Here is what I changed from these examples:
 - Inner value - inside the the donut chart you see the amount of objects total and when hovered of a specific material
 
 ## Install
+[Parcel](https://parceljs.org/) is used as the application bundler for this project. The main goal of using Parcel was to use ES6 imports. This allows for the code to be more modular and easier to work with.
+
 First install dependencies:
 
 ```sh
@@ -67,6 +69,25 @@ The [wiki](https://github.com/MartijnKeesmaat/frontend-data/wiki) documents the 
 The data that is used comes from the database of the [NMVW collection](https://collectie.wereldculturen.nl/). For the assignment we are asked to use [SPARQL](https://www.w3.org/TR/rdf-sparql-query/) to retrieve the data. 
 
 Data being used in the app regards the main categories and their respective most-used materials. The process of gaining this data is explained on the [quest for the query](https://github.com/MartijnKeesmaat/frontend-data/wiki/Quest-for-the-query) page.
+
+### Data usage
+There are 19 main categories in total, but for this example, I'll show 2. This is how the objects are structured. They contain a `name`, `value` and `material array`. The value refers to the amount of objects within the category.
+
+``` js
+0: {name: "communicatie", value: 557474, materials: Array(5)}
+1: {name: "kunst", value: 188227, materials: Array(5)}
+```
+
+Each category shows the 5 most common materials. The materials have a name(string) and value(number) which is the number of objects of said material.
+
+
+``` js
+0: {name: "papier (vezelproduct)", value: 12411}
+1: {name: "papier (vezelproduct)", value: 7792}
+2: {name: "inkt", value: 7473}
+3: {name: "houtsnede (drukprocedé)", value: 6640}
+4: {name: "pigment", value: 6378}
+```
 
 ### Data cleaning
 Since the data that is being retrieved doesn't need much cleaning, I decided to clean the survey data from another project. This is explained on the [data cleaning](https://github.com/MartijnKeesmaat/frontend-data/wiki/Data-cleaning) page.
