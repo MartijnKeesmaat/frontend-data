@@ -137,3 +137,102 @@ p {
 .legend-label {
   transition: 0.3s all ease;
 }
+
+input[type='range'] {
+  position: absolute;
+  top: 0;
+  right: 0;
+  right: -92px;
+  bottom: 0;
+
+  width: 300px;
+  height: 5px;
+
+  transform: rotate(90deg) translate(50%, 0);
+
+  background: rgba(106, 44, 112, 0.05);
+  background: transparent; /* Otherwise white in Chrome */
+
+  -webkit-appearance: none; /* Hides the slider so that custom slider can be made */
+}
+
+input[type='range']::-webkit-slider-thumb {
+  background: #000;
+}
+
+.bar-chart-container {
+  position: relative;
+
+  display: flex;
+  flex-direction: row-reverse;
+
+  height: 300px;
+}
+
+input[type='range']:focus {
+  outline: none; /* Removes the blue border. You should probably do some kind of focus styling for accessibility reasons though. */
+}
+
+/* Special styling for WebKit/Blink */
+input[type='range']::-webkit-slider-thumb {
+  width: 105px;
+  height: 80px;
+  margin-top: -14px; /* You need to specify a margin in Chrome, but in Firefox and IE it is automatic */
+
+  cursor: pointer;
+  transition: 0.3s all ease;
+
+  background: rgba(251, 161, 108, 0.1); /* Add cool effects to your sliders! */
+
+  -webkit-appearance: none;
+}
+
+input[type='range']::-webkit-slider-thumb:hover {
+  background: rgba(251, 161, 108, 0.2);
+}
+
+/* All the same stuff for Firefox */
+input[type='range']::-moz-range-thumb {
+  width: 105px;
+  height: 80px;
+
+  cursor: pointer;
+  transition: 0.3s all ease;
+
+  background: rgba(251, 161, 108, 0.1);
+}
+
+input[type='range']::-moz-range-thumb:hover {
+  background: rgba(251, 161, 108, 0.2);
+}
+
+/* All the same stuff for IE */
+input[type='range']::-ms-thumb {
+  width: 105px;
+  height: 80px;
+
+  cursor: pointer;
+  transition: 0.3s all ease;
+
+  background: rgba(251, 161, 108, 0.1);
+}
+
+input[type='range']::-ms-thumb:hover {
+  background: rgba(251, 161, 108, 0.2);
+}
+
+.d-bars,
+.d-bars svg {
+  position: relative;
+
+  width: 92px;
+  height: 100%;
+}
+
+.bar-chart svg {
+  margin-right: 20px;
+}
+
+.bar-chart {
+  margin-right: 20px;
+}

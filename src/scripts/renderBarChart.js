@@ -2,7 +2,6 @@ import * as d3 from 'd3';
 import { shadeColor, capitalize } from './helpers';
 import { positionDonutChart, getArc, getPies, addSlicesToDonutContrainer, createDonutContainer, addDonutLabels } from './donut-functions';
 import { addGridlinesToBarChart, addActiveClassToBar, addXAxisToBarChart, addXScaleBarChart, addLabelsToBarChart, addGlobalSVGBarChart } from './bar-functions';
-import { get } from 'http';
 
 export default function renderBarChart(categories, width, height) {
   const donutConfig = {
@@ -29,7 +28,7 @@ export default function renderBarChart(categories, width, height) {
   // Add Bar Chart config
   const barConfig = {
     height: 15,
-    spacing: 56,
+    spacing: 47,
     labelWidth: 100
   };
 
@@ -46,6 +45,7 @@ export default function renderBarChart(categories, width, height) {
 
   // also stores event for donut chart
   addBarsToBarChart(xScale, svg, categories, barConfig.height, barConfig.spacing, donutContainer, pie, donutConfig.colors, arc);
+  brusherBars(categories, xScale);
 }
 
 // TODO Move to separate file
@@ -171,13 +171,15 @@ function updateDonutChart(data, donutContainer, pie, color, arc, categories, xSc
 // TODO Divide and concur
 const addBarsToBarChart = (xScale, svg, categories, barheight, barSpacing, donutContainer, pie, colors, arc) => {
   svg
+    .append('g')
+    .attr('class', 'bar-group')
     .selectAll('rect')
     .exit()
     .remove()
     .data(categories)
     .enter()
     .append('rect')
-    .attr('x', (d, i) => 106)
+    .attr('x', (d, i) => 97)
     .attr('y', (d, i) => i * barSpacing)
     .attr('width', d => xScale(d.value))
     .attr('height', barheight)
@@ -185,7 +187,12 @@ const addBarsToBarChart = (xScale, svg, categories, barheight, barSpacing, donut
     .attr('fill', '#edf0f4')
     .on('mouseenter', function(d, i) {
       d3.selectAll('.bar').attr('fill', '#edf0f4');
+      d3.selectAll('.d-bar').attr('fill', '#edf0f4');
+
       d3.select(this).attr('fill', '#fba16c');
+      d3.selectAll('.d-bar')
+        .filter((d, j) => j === i)
+        .attr('fill', '#fba16c');
 
       d3.select('.donut-chart h2').text(capitalize(categories[i].name));
       d3.select('.donut-title').text(d.value);
@@ -229,3 +236,41 @@ function addDefaultText(categories, width, height) {
     .attr('dx', donutDimensions + xOffset)
     .attr('dy', containerHeight / 2 + margin + yOffset);
 }
+
+function brusher() {
+  const brush = document.querySelector('#brusher');
+  const h = 855 - 280; // height inner-container - height svg
+
+  brush.oninput = function() {
+    d3.select('g.bar-group').attr('transform', 'translate(0,' + -this.value * (h / 10) + ')');
+    d3.select('.bar-text').attr('transform', 'translate(0,' + -this.value * (h / 10) + ')');
+  };
+}
+
+function brusherBars(categories) {
+  const svgH = 300;
+  const barH = 6;
+  const xScale = addXScaleBarChart(92, 15, categories);
+
+  const container = d3
+    .select('.d-bars')
+    .append('svg')
+    .attr('transform', 'translate(0,' + -10 + ')');
+  container
+    .selectAll('rect')
+    .data(categories)
+    .enter()
+    .append('rect')
+    .attr('class', 'd-bar')
+    .attr('x', (d, i) => 0)
+    .attr('y', (d, i) => (i * (svgH + 40)) / 19)
+    .attr('width', d => xScale(d.value))
+    .attr('height', d => barH)
+    .attr('fill', '#edf0f4');
+
+  d3.selectAll('.d-bar')
+    .filter((d, i) => i === 0)
+    .attr('fill', '#fba16c');
+}
+
+brusher();

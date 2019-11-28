@@ -3,17 +3,18 @@ import { wrap, capitalize } from './helpers';
 
 export const addLabelsToBarChart = (svg, categories, labelWidth, barSpacing) => {
   svg
+    .append('g')
+    .attr('class', 'bar-text')
     .selectAll('text')
     .data(categories)
     .enter()
     .append('text')
     .text(d => capitalize(d.name))
-    .attr('x', (d, i) => 0)
     .attr('y', (d, i) => i * barSpacing + 10)
     .attr('class', 'label')
     .attr('dy', 0)
     .attr('text-anchor', 'end')
-    .attr('transform', 'translate(90,' + 0 + ')')
+    .attr('transform', 'translate(95,' + 0 + ')')
     .call(wrap, labelWidth);
 };
 
@@ -55,8 +56,8 @@ const makeXGridlines = x => d3.axisBottom(x).ticks(4);
 
 export const addGlobalSVGBarChart = (width, height) => {
   return d3
-    .select('.bar-chart')
-    .append('svg')
+    .select('.bar-chart-container')
+    .insert('svg')
     .attr('width', width)
     .attr('height', height);
 };
