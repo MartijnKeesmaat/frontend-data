@@ -205,7 +205,7 @@ input[type='range']::-moz-range-thumb {
 input[type='range']::-moz-range-thumb:hover {
   background: rgba(251, 161, 108, 0.2);
 }
-
+/* build */
 /* All the same stuff for IE */
 input[type='range']::-ms-thumb {
   width: 105px;

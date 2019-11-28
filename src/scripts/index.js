@@ -104,5 +104,5 @@ function renderCharts(categories) {
 
   setTimeout(() => {
     donutTest(categories, 1);
-  }, 1000);
+  }, 1001);
 }
