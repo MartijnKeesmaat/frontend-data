@@ -12,18 +12,18 @@ See the the live demo [here](https://make-frontend-data.netlify.com/)
 
 ### Showing the most populair materials for each category
 The first chart is a horizontal bar chart which, in this case, updates the data of the donut chart. You can see the bar chart as a fancy alternative to a dropdown. Once the user hovers over a bar in the graph, the donut-chart will update.
-![](https://camo.githubusercontent.com/293a76cc4730b136d46d5c16cb88baf881d86f65/68747470733a2f2f692e6779617a6f2e636f6d2f35353031626136613335643632303461383733393561393136333262643033632e676966)
+[![Image from Gyazo](https://i.gyazo.com/cf10d977cb5af01cf0b0902bcc674d99.gif)](https://gyazo.com/cf10d977cb5af01cf0b0902bcc674d99)
 
 ### What categories contain the selected material
 The donut chart shows the top 5 materials for each category. To make the prototype more interesting, we also update the bar chart based on those materials. Once the user hovers over a slice of the donut, it shows which categories contain that material. The width of the bars now indicates how much of the selected material each category has.
-![](https://camo.githubusercontent.com/30e1e4b2b0dd4e35994344799d32c661d4548d07/68747470733a2f2f692e6779617a6f2e636f6d2f38626237643566336362616263663738393462643033386361316265313735642e676966)
+[![Image from Gyazo](https://i.gyazo.com/540fbdc762e7cc373ceb81b2138971ec.gif)](https://gyazo.com/540fbdc762e7cc373ceb81b2138971ec)
 
 ## Next to the examples
 Here you briefly see the examples that were used and how I transformed them. The process of adapting these examples can be found in the [wiki](https://github.com/MartijnKeesmaat/frontend-data/wiki/Examples-&-My-work). 
 
 | [Bar chart](https://www.freecodecamp.org/learn/data-visualization/data-visualization-with-d3/add-a-hover-effect-to-a-d3-element/)        | [Donut chart](http://bl.ocks.org/dbuezas/9306799)           | [Result](https://make-frontend-data.netlify.com/)  |
 | :-------------: |:-------------:| :-----:|
-| ![](https://user-images.githubusercontent.com/8048514/68934881-d7c9bc80-0797-11ea-8f40-8842971b6d69.png)      | ![](https://camo.githubusercontent.com/b235439d39d16c3a51199ff22ecb47b3208de94d/68747470733a2f2f692e6779617a6f2e636f6d2f30306462623439656331383265643662643939663364356163623266616437352e676966) | [![Image from Gyazo](https://i.gyazo.com/370d181aa181813bc5236b1939552b56.gif)](https://gyazo.com/370d181aa181813bc5236b1939552b56) |
+| ![](https://user-images.githubusercontent.com/8048514/68934881-d7c9bc80-0797-11ea-8f40-8842971b6d69.png)      | ![](https://camo.githubusercontent.com/b235439d39d16c3a51199ff22ecb47b3208de94d/68747470733a2f2f692e6779617a6f2e636f6d2f30306462623439656331383265643662643939663364356163623266616437352e676966) | [![Image from Gyazo](https://i.gyazo.com/fcd34dc87f4feb83c460747cea63b50b.gif)](https://gyazo.com/fcd34dc87f4feb83c460747cea63b50b) |
 
 Here is what I changed from these examples:
 
