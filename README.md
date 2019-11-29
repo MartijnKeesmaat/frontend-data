@@ -1,5 +1,3 @@
-[![Netlify Status](https://api.netlify.com/api/v1/badges/1c5f5275-6038-4ca7-b8d4-32f12e188f72/deploy-status)](https://app.netlify.com/sites/make-frontend-data/deploys)
-
 # 📈 NVWM Dashboard
 The NVWM Dashboard is a project created for the [front-end data course](https://github.com/cmda-tt/course-19-20/tree/master/frontend-data) of the [Amsterdam University of Applied Sciences](https://www.hva.nl/)
 
